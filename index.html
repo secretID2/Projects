@@ -36,6 +36,7 @@ var myGameArea = {
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+	
 }
 
 function component(width, height, color, x, y, type) {
@@ -130,8 +131,14 @@ function accelerate(n) {
 }
 </script>
 <br>
-<button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
-<p>Use the ACCELERATE button to stay in the air</p>
-<p>How long can you stay alive?</p>
+<canvas id="canvas2" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)" width = "480" height="100"></canvas> 
+<!-- <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button> -->
+<script>
+var canvas = document.getElementById("canvas2");
+var ctx = canvas.getContext("2d");
+ctx.font = "30px Arial";
+ctx.fillText("Touch to jump",10,50);
+</script>
+
 </body>
 </html>
