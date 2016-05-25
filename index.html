@@ -1,544 +1,312 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content>
-
-    <title>Dashboard Template for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-
-    <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
-    <script src="js/jquery-1.12.3.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-
-    <script src="js/create.js"></script>
-    <script src="js/allusers.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="js/holder.min.js"></script>
-    </script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <title>JavaScript</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 </head>
-
 <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Adminstrador</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li>
-                        <a href="#">
-
-                            <button type="button" class="btn btn-danger btn-xs">Logout</button>
-
-
-                        </a>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-3 col-md-2 sidebar">
-                <ul class="nav nav-sidebar">
-
-                    <li>
-                        <a>
-
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createUserModal"> New User</button>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a>
-                            <div id="userOptionsMenu" class="btn-group-vertical" role="group" aria-label="Possible Options">
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditUser">Edit User</button>
-
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalAddService">Add Service</button>
-
-                                <button id="deleteUser" class="btn btn-default btn-danger" type="submit">Delete User</button>
-
-                            </div>
-                        </a>
-                    </li>
-
-
-
-
-                    <li>
-                        <a>
-                            <div id="serviceOptionsMenu" class="btn-group-vertical" role="group" aria-label="Possible Options">
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEdditService">Edit Service</button>
-								<button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalAddServiceDemand">Add Service Demand</button>
-                                <button id="deleteService" class="btn btn-default btn-danger" type="submit">Delete Service</button>
-
-                            </div>
-                        </a>
-
-                    </li>
-					
-					<li>
-                        <a>
-                            <div id="serviceDemandMenu" class="btn-group-vertical" role="group" aria-label="Possible Options">
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditServiceDemand">Edit Service Demand</button>					
-                                <button id="deleteServiceDemand" class="btn btn-default btn-danger"  type="submit">Delete Service Dem</button>
-
-                            </div>
-                        </a>
-
-                    </li>
-					
-
-
-                </ul>
-
-
-            </div>
-
-
-
-
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
-
-
-                <div id="userDeletedAlertSuccess" class="alert alert-warning" role="alert">
-                    <span class="glyphicon glyphicon-ok-circle"></span>
-                    <strong>Success!</strong> User deleted
-                </div>
-
-                <div id="userDeletedAlertError" class="alert alert-danger" role="alert">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                    <strong>Error!</strong> User not deleted
-                </div>
-
-                <div id="ServiceDeletedAlertSuccess" class="alert alert-warning" role="alert">
-                    <span class="glyphicon glyphicon-ok-circle"></span>
-                    <strong>Success!</strong> Service deleted
-                </div>
-
-                <div id="serviceDeletedAlertError" class="alert alert-danger" role="alert">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                    <strong>Error!</strong> Service not deleted
-                </div>
-				
-				<div id="ServiceDemandDeletedAlertSuccess" class="alert alert-warning" role="alert">
-                    <span class="glyphicon glyphicon-ok-circle"></span>
-                    <strong>Success!</strong> Service Demand deleted
-                </div>
-
-                <div id="serviceDemandDeletedAlertError" class="alert alert-danger" role="alert">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                    <strong>Error!</strong> Service Demand not deleted
-                </div>
-
-
-
-
-                <h1 id="userName" value="none" class="page-header">Client Name</h1>
-                <h2 id="serviceName" class="sub-header">Service Name</h2>
-
-                <div id="content">
-                    <div class="row">
-
-                        <div class="col-xs-12 col-md-4">
-                            <h4>Users:</h4>
-                            <select multiple id="users" class="form-control">
-
-                            </select>
-
-
-                        </div>
-
-
-
-                        <div class="col-xs-12 col-md-4">
-
-
-
-                            <h4>Services:</h4>
-                            <select id="services" multiple class="form-control"> </select>
-
-
-                        </div>
-
-
-                        <div class="col-xs-12 col-md-4">
-
-
-
-                            <h4>Details:</h4>
-
-
-                            <div id="details">
-
-                            </div>
-
-
-
-
-                        </div>
-						<div class="col-xs-12 col-md-10"></div>
-						<div class="col-xs-12 col-md-4">
-
-
-
-                           <h4>Services_Demands:</h4>
-                            <select id="services_demands" multiple class="form-control"> </select>
-
-
-
-
-                        </div>
-						<div class="col-xs-12 col-md-4">
-
-
-
-                           <h4>Services_Offers:</h4>
-                            <select id="services_offers" multiple class="form-control"> </select>
-
-
-
-
-                        </div>
-						
-						
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Modal ADD NEW USER -->
-    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <form method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Create new user</h4>
-
-
-                    </div>
-                    <div class="modal-body">
-
-                        <input id="nameentry" type="text" class="form-control" placeholder="Name">
-                        </br>
-                        <input id="emailentry" type="email" class="form-control" placeholder="Email">
-                        </br>
-                        <input id="numberentry" type="number" class="form-control" placeholder="Feedback">
-                        </br>
-                        <input id="passwordentry" type="password" class="form-control" placeholder="Password">
-                        </br>
-
-
-                        <div id="alertSuccess" class="alert alert-success" role="alert">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                            <strong>Success!</strong> New User created</div>
-                        <div id="alertError" class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-remove-circle"></span>
-                            <strong>Error!</strong> Please check if your inputs are correct</div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="btn_create" type="button" class="btn btn-primary">Create User</button>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
-
-
-    <!-----MODAL 2 ADD SERVICE TO USER -->
-    <div class="modal fade" id="modalAddService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <form method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabelService">Add new Service to User</h4>
-
-
-                    </div>
-                    <div class="modal-body">
-
-                        <input id="servicenameentry" type="text" class="form-control" placeholder="Service Name">
-                        </br>
-                        <input id="serviceloc" type="text" class="form-control" placeholder="Service location">
-                        </br>
-                        <input id="servicedescr" type="text" class="form-control" placeholder="Service description">
-                        </br>
-
-
-
-                        <div id="ServalertSuccess" class="alert alert-success" role="alert">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                            <strong>Success!</strong> New service added</div>
-                        <div id="ServalertError" class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-remove-circle"></span><strong>Error!</strong> Please check if your inputs are correct</div>
-
-
-                    </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="btn_addService" type="button" class="btn btn-primary">Add Service</button>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
-
-    <!-----MODAL 3 EDIT USER -->
-    <div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <form method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabelService">Edit User</h4>
-
-
-                    </div>
-                    <div class="modal-body">
-
-                        Name
-                        <input id="editnameentry" type="text" class="form-control" placeholder="Name">
-                        </br>
-                        Email
-                        <input id="editemailentry" type="email" class="form-control" placeholder="Email">
-                        </br>
-                        Feedback
-                        <input id="editnumberentry" type="number" class="form-control" placeholder="Feedback">
-                        </br>
-						Visible
-						<input type="checkbox" name="vehicle" id="edit_visible_entry" value="TRUE" />
-                        <!-- Password
-                        <input id="editpasswordentry" type="text" class="form-control" placeholder="Password">
-                        </br> -->
-
-                        <div id="EditalertSuccess" class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>
-                            <strong>Success!</strong> New User Updated</div>
-                        <div id="EditalertError" class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-remove-circle"></span><strong>Error!</strong> Please check if your inputs are correct</div>
-
-
-                    </div>
-					
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="btn_edit" type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
-
-    <!-----MODAL 4 edit service -->
-    <div class="modal fade" id="modalEdditService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <form method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabelService">Edit Service </h4>
-
-
-                    </div>
-                    <div class="modal-body">
-
-                        Service Name
-                        <input id="editservicenameentry" type="text" class="form-control" placeholder="Service Name">
-                        </br>
-                        Service Location
-                        <input id="editserviceloc" type="text" class="form-control" placeholder="Service location">
-                        </br>
-                        Service Description
-                        <input id="editservicedescr" type="text" class="form-control" placeholder="Service description">
-                        </br>
-
-
-
-                        <div id="editServalertSuccess" class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>
-                            <strong>Success!</strong> New service added</div>
-                        <div id="editServalertError" class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-remove-circle"></span><strong>Error!</strong> Please check if your inputs are correct</div>
-
-
-                    </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="btn_editService" type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </div>
+  <canvas id="canvas"></canvas>
+  <script>
+    var canvas = document.getElementById("canvas");
 	
-	<!-----MODAL 5 ADD service demand -->
-    <div class="modal fade" id="modalAddServiceDemand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <form method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabelService">ADD Service Demand </h4>
-
-
-                    </div>
-                    <div class="modal-body">
-
-                        Type
-                        <input id="add_service_demand_type" type="text" class="form-control" placeholder="Demand type">
-                        </br>
-                         Description
-                        <input id="add_service_demand_dis" type="text" class="form-control" placeholder="Demand description">
-                        </br>
-						Release Date
-                        <input id="add_service_demand_relD" type="date" class="form-control" placeholder="Demand release Date">
-                        </br>
-						Expiration Date
-                        <input id="add_service_demand_expD" type="date" class="form-control" placeholder="Demand expiration Date">
-                        </br>
-
-
-
-                        <div id="addServiceDemandSuccess" class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>
-                            <strong>Success!</strong> New service added</div>
-                        <div id="addServiceDemandError" class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-remove-circle"></span><strong>Error!</strong> Please check if your inputs are correct</div>
-
-
-                    </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="btn_addServiceDemand" type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </div>
-	
-	<!-----MODAL 6 Edit service demand -->
-    <div class="modal fade" id="modalEditServiceDemand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <form method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabelService">Edit Service Demand </h4>
-
-
-                    </div>
-                    <div class="modal-body">
-
-                        Type
-                        <input id="edit_service_demand_type" type="text" class="form-control" placeholder="Demand type">
-                        </br>
-                         Description
-                        <input id="edit_service_demand_dis" type="text" class="form-control" placeholder="Demand description">
-                        </br>
-						Release Date
-                        <input id="edit_service_demand_relD" type="date" class="form-control" placeholder="Demand release Date">
-                        </br>
-						Expiration Date
-                        <input id="edit_service_demand_expD" type="date" class="form-control" placeholder="Demand expiration Date">
-                        </br>
-
-
-
-                        <div id="editServiceDemandSuccess" class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-circle"></span>
-                            <strong>Success!</strong> New service added</div>
-                        <div id="editServiceDemandError" class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-remove-circle"></span><strong>Error!</strong> Please check if your inputs are correct</div>
-
-
-                    </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="btn_editServiceDemand" type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </div>
-	
-	
-
-
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-
-
+    var processing = new Processing(canvas, function(processing) {
+        processing.size(window.innerWidth, window.innerHeight);
+        processing.background(0xFFF);
+        var mouseIsPressed = false;
+        processing.mousePressed = function () { mouseIsPressed = true; };
+        processing.mouseReleased = function () { mouseIsPressed = false; };
+        var keyIsPressed = false;
+        processing.keyPressed = function () { keyIsPressed = true; };
+        processing.keyReleased = function () { keyIsPressed = false; };
+        function getImage(s) {
+            var url = "https://www.kasandbox.org/programming-images/" + s + ".png";
+            processing.externals.sketch.imageCache.add(url);
+            return processing.loadImage(url);
+        }
+        // use degrees rather than radians in rotate function
+        var rotateFn = processing.rotate;
+        processing.rotate = function (angle) {
+            rotateFn(processing.radians(angle));
+        };
+        with (processing) {
+            /**
+ * click on the mouse to setup ghost car position
+ * 
+ * [+ , -] : to control the orientation/ angle of ghost car
+ * 
+ * */
+var currentTime;
+var oldTime;
+var cars = [];
+var numOfCars = 3;
+var xObjective;
+var yObjective;
+var thetaObjective;
+/**
+ * do not change this
+ * */
+var xmin = -20;
+var xmax = 20;
+var ymin = -20;
+var ymax = 20;
+var w= 400;
+var h = 400;
+var setDomain = function(min,max) {
+    xmin = min;
+    xmax = max;
+};
+var changeXcoord = function(x){
+    return ((x - xmin) * w) / abs(xmax - xmin);
+};
+var changeYcoord = function(y){
+    return -((y - ymax) * h) / abs(ymax - ymin);
+};
+var inverseXcoord = function(i) {
+    return (i * (abs(xmax - xmin))) / w + xmin;
+};
+var inverseYcoord = function(j) {
+    return -(j * (abs(ymax - ymin))) / h + ymax;
+};
+var drawLine = function( x1,  y1, x2, y2){
+    var i1 = changeXcoord(x1);
+    var j1 = changeYcoord(y1);
+    var i2 = changeXcoord(x2);
+    var j2 = changeYcoord(y2);
+    line(i1,j1,i2,j2);
+};
+var drawString = function(str,x,y) {
+    var i1 = changeXcoord(x);
+    var j1 = changeYcoord(y);
+    text(str,i1,j1);
+};
+var drawEllipse = function(x,y,w,h){
+     var i = changeXcoord(x);
+     var j = changeYcoord(y);
+     var wt = changeXcoord(x + w);
+     var ht = changeYcoord(y + h);
+     wt = wt - i;
+     ht = ht - j;
+     ellipse(i,j,wt,ht);
+};
+var drawRect = function(x,y,w,h) {
+     var i = changeXcoord(x);
+     var j = changeYcoord(y);
+     var wt = changeXcoord(x + w);
+     var ht = changeYcoord(y + h);
+     wt = wt - i;
+     ht = ht - j;
+     rect(i,j,wt,ht);
+};
+var Car = function(x,y,theta,r,g,b) {
+    this.x = x;
+    this.y = y;
+    this.theta = theta;
+    this.red = r;
+    this.green = g;
+    this.blue = b;
+    this.phi = this.theta;
+    this.psi = 0;
+    this.psiHist = [];
+    this.phiHist = [];
+    this.indexHist = 0;
+    this.maxHist = 100;
+    
+    this.computeVel = function(phi, psi) {
+        var ret = [];
+        ret[0] = psi * Math.cos(this.theta);
+        ret[1] = psi * Math.sin(this.theta);
+        ret[2] = phi;
+        return ret;
+    };
+    
+    this.computeDphi = function(phi,psi) {
+        var epsilon = 1E-9;
+        var ret = [];
+        var fx = this.computeVel(phi - epsilon,psi);
+        var fdx = this.computeVel(phi + epsilon,psi);
+        ret[0] = (fdx[0]  - fx[0]) / ( 2 * epsilon);
+        ret[1] = (fdx[1]  - fx[1]) / ( 2 * epsilon);
+        ret[2] = (fdx[2]  - fx[2]) / ( 2 * epsilon);
+        return ret;
+    };
+    
+    this.computeDpsi = function(phi,psi) {
+        var epsilon = 1E-9;
+        var ret = [];
+        var fx = this.computeVel(phi,psi - epsilon);
+        var fdx = this.computeVel(phi ,psi + epsilon);
+        ret[0] = (fdx[0]  - fx[0]) / ( 2 * epsilon);
+        ret[1] = (fdx[1]  - fx[1]) / ( 2 * epsilon);
+        ret[2] = (fdx[2]  - fx[2]) / ( 2 * epsilon);
+        return ret;
+    };
+    
+    this.sqin = function(x) {
+        if(x >= 0 && x < 1){
+            return x;
+        }else if(x >= 1 && x < 3){
+            return 1;
+        }else if(x >= 3 && x < 5){
+            return 1 - (x - 3);
+        }else if(x >= 5 && x < 7){
+            return - 1;
+        }else if(x >= 7 && x < 8){
+            return (x-7) - 1;
+        }else if(x>= 8){
+            return this.sqin(x % 8);
+        }else {
+            return -this.sqin(-x);
+        } 
+    };
+    
+    this.cqos = function(x) {
+        return this.sqin(x + 2);
+    };
+    
+    this.init = function(){
+       this.dataX = [];
+       this.dataY = [];
+       this.samples = 25;
+       for(var i = 0; i <= this.samples; i++){
+            var t = (8 / this.samples) * i;
+            this.dataX[i] = 2 * this.cqos(t - 1);
+            this.dataY[i] = this.sqin(t - 1);
+        }
+    };
+    
+    this.cost = function(qref, q, u, dotU) {
+        var cosT = Math.cos(q[2]);
+        var sinT = Math.sin(q[2]);
+        
+        var h = 1E-1;
+        var v = [qref[0] - q[0], qref[1] - q[1], qref[2] - q[2]];
+        return  0.5 * (sq(v[0] -  h * u[0] * cosT + 0.5 * h * h * (u[0] * u[1] * sinT - dotU[0] * cosT)) + sq(v[1] - h * u[0] * sinT - 0.5 * h * h * (u[0] * u[1] * cosT + dotU[0] * sinT)) + sq(v[2] - h * u[1] - 0.5 * h* h * dotU[1]));
+    };
+    
+    this.gradient = function(qref, q, u, dotU) {
+     var h = 1E-3;
+     var dv = (this.cost(qref,q,[u[0] + h, u[1]],[dotU[0], dotU[1]]) - this.cost(qref,q,[u[0] - h, u[1]],[dotU[0], dotU[1]])) / (2 * h);
+     var dw = (this.cost(qref,q,[u[0], u[1] + h],[dotU[0], dotU[1]]) - this.cost(qref,q,[u[0], u[1] - h],[dotU[0], dotU[1]])) / (2 * h);
+     var ddv = (this.cost(qref,q,[u[0], u[1]],[dotU[0] + h, dotU[1]]) - this.cost(qref,q,[u[0], u[1]],[dotU[0] - h, dotU[1]])) / (2 * h);
+     var ddw = (this.cost(qref,q,[u[0], u[1]],[dotU[0], dotU[1] + h]) - this.cost(qref,q,[u[0], u[1]],[dotU[0], dotU[1] - h])) / (2 * h);
+     return [dv , dw, ddv, ddw];
+    };
+    
+    this.control = function(dt) {
+        var h = 1E-3;
+        var epsilon = 1E-10;
+        var maxIte = 80;
+        var ite = 1;
+        var maxVel = 5;
+        var maxRot = 1;
+        //learning rate
+        var alpha = 0.01;
+        var u = [this.psi, this.phi];
+        var dU = [0,0];
+        var grad = [1E10,1E10];
+        while ((grad[0] * grad[0] + grad[1] * grad[1] > epsilon) && (ite < maxIte)) {
+            grad = this.gradient([xObjective, yObjective, thetaObjective], [this.x, this.y, this.theta], u, dU);
+            u[0] = u[0] - alpha * grad[0];
+            u[1] = u[1] - alpha * grad[1];
+            dU[0] = dU[0] - alpha * grad[2];
+            dU[1] = dU[1] - alpha * grad[3];
+            ite = ite + 1;
+        }
+        
+        //println(this.cost([xObjective, yObjective, thetaObjective], [this.x, this.y, this.theta], u));
+        //bound velocity
+        u[0] = max(-maxVel,min(u[0], maxVel));
+        u[1] = max(-maxRot,min(u[1], maxRot));
+        this.psi = u[0] + h * dU[0];
+        this.phi = u[1] + h * dU[1];
+        
+        var vel = this.computeVel(this.phi,this.psi);
+        drawLine(this.x,this.y, this.x + vel[0] , this.y + vel[1]);
+        
+    };
+    
+    this.update = function(dt) {
+        // new control
+        this.control(dt);
+        var vel = this.computeVel(this.phi,this.psi);
+        this.x = this.x + vel[0] * dt;
+        this.y = this.y + vel[1] * dt;
+        this.theta = this.theta + vel[2]*dt;
+    };
+    
+    this.drawCar = function() {
+        var x = [];
+        var y = [];
+        for(var i = 0; i <= this.samples; i++) {
+            x[i] = this.dataX[i] * Math.cos(this.theta) - this.dataY[i] * Math.sin(this.theta);
+            y[i] = this.dataX[i] * Math.sin(this.theta) + this.dataY[i] * Math.cos(this.theta);
+            x[i] = x[i] + this.x;
+            y[i] = y[i] + this.y;
+        }
+        stroke(this.red,this.green,this.blue);
+        for(var i = 0; i < this.samples; i++) {
+            drawLine(x[i],y[i], x[i+1], y[i+1]);
+        }
+    };
+};
+var init = function() {
+    oldTime = millis() * 1E-3;
+    /*for(var i = 0; i < numOfCars; i++) {
+        cars[i] = new Car(random(-13,11),
+                          random(-12,14),
+                          random(0,2 * Math.PI),
+                          random(0,255),
+                          random(0,255),
+                          random(0,255));
+        cars[i].init();
+    }*/
+    cars[0] = new Car(0,0,0,0,0,255);
+    cars[1] = new Car(10,12,Math.PI / 2,255,0,0);
+    cars[2] = new Car(10,2,Math.PI / 2,255,0,0);
+    for(var i = 0; i < numOfCars; i++) {
+        cars[i].init();
+    }
+    xObjective = 0;
+    yObjective = 0;
+    thetaObjective = 0;
+};
+init();
+var mouseClicked = function() {
+    xObjective = inverseXcoord(mouseX);
+    yObjective = inverseYcoord(mouseY);
+};
+var keyPressed = function() {
+    // Conditionally display based on string value 
+    if (key.toString() === '+') {
+        thetaObjective += Math.PI /12;
+    }
+     if (key.toString() === '-') {
+        thetaObjective -= Math.PI /12;
+    }
+};
+var carUpdate = function(dt) {
+    cars[0].update(dt);
+    for(var i = 0; i < numOfCars; i++) {
+        cars[i].drawCar();
+    }
+    
+};
+var draw = function() {
+    background(255, 255, 255);
+     /**
+     * time in seconds
+     */
+    currentTime = millis() * 1E-3;
+    var	dt = currentTime - oldTime;
+	oldTime = currentTime;
+	carUpdate(dt);
+	var carfinal = new Car(xObjective,yObjective,thetaObjective, 0,255,0);
+	carfinal.init();
+	carfinal.drawCar();
+};
+        }
+        if (typeof draw !== 'undefined') processing.draw = draw;
+    });
+  </script>
 </body>
-
 </html>
