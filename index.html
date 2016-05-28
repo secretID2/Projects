@@ -1,148 +1,312 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<style>
-canvas {
-    border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
-}
-</style>
-
-  <title>Animation Below</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <title>JavaScript</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 </head>
-<body onload="startGame()">
-<script>
-
-var myGamePiece;
-var myObstacles = [];
-var myScore;
-
-function startGame() {
-    myGamePiece = new component(30, 30, "red", 10, 120);
-    myGamePiece.gravity = 0.05;
-    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
-    myGameArea.start();
-}
-
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-		this.canvas.id="canvas";
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 20);
-        },
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    var canvas = document.getElementById("canvas");
 	
-}
-
-function component(width, height, color, x, y, type) {
-    this.type = type;
-    this.score = 0;
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;    
+    var processing = new Processing(canvas, function(processing) {
+        processing.size(window.innerWidth, window.innerHeight);
+        processing.background(0xFFF);
+        var mouseIsPressed = false;
+        processing.mousePressed = function () { mouseIsPressed = true; };
+        processing.mouseReleased = function () { mouseIsPressed = false; };
+        var keyIsPressed = false;
+        processing.keyPressed = function () { keyIsPressed = true; };
+        processing.keyReleased = function () { keyIsPressed = false; };
+        function getImage(s) {
+            var url = "https://www.kasandbox.org/programming-images/" + s + ".png";
+            processing.externals.sketch.imageCache.add(url);
+            return processing.loadImage(url);
+        }
+        // use degrees rather than radians in rotate function
+        var rotateFn = processing.rotate;
+        processing.rotate = function (angle) {
+            rotateFn(processing.radians(angle));
+        };
+        with (processing) {
+            /**
+ * click on the mouse to setup ghost car position
+ * 
+ * [+ , -] : to control the orientation/ angle of ghost car
+ * 
+ * */
+var currentTime;
+var oldTime;
+var cars = [];
+var numOfCars = 3;
+var xObjective;
+var yObjective;
+var thetaObjective;
+/**
+ * do not change this
+ * */
+var xmin = -20;
+var xmax = 20;
+var ymin = -20;
+var ymax = 20;
+var w= 400;
+var h = 400;
+var setDomain = function(min,max) {
+    xmin = min;
+    xmax = max;
+};
+var changeXcoord = function(x){
+    return ((x - xmin) * w) / abs(xmax - xmin);
+};
+var changeYcoord = function(y){
+    return -((y - ymax) * h) / abs(ymax - ymin);
+};
+var inverseXcoord = function(i) {
+    return (i * (abs(xmax - xmin))) / w + xmin;
+};
+var inverseYcoord = function(j) {
+    return -(j * (abs(ymax - ymin))) / h + ymax;
+};
+var drawLine = function( x1,  y1, x2, y2){
+    var i1 = changeXcoord(x1);
+    var j1 = changeYcoord(y1);
+    var i2 = changeXcoord(x2);
+    var j2 = changeYcoord(y2);
+    line(i1,j1,i2,j2);
+};
+var drawString = function(str,x,y) {
+    var i1 = changeXcoord(x);
+    var j1 = changeYcoord(y);
+    text(str,i1,j1);
+};
+var drawEllipse = function(x,y,w,h){
+     var i = changeXcoord(x);
+     var j = changeYcoord(y);
+     var wt = changeXcoord(x + w);
+     var ht = changeYcoord(y + h);
+     wt = wt - i;
+     ht = ht - j;
+     ellipse(i,j,wt,ht);
+};
+var drawRect = function(x,y,w,h) {
+     var i = changeXcoord(x);
+     var j = changeYcoord(y);
+     var wt = changeXcoord(x + w);
+     var ht = changeYcoord(y + h);
+     wt = wt - i;
+     ht = ht - j;
+     rect(i,j,wt,ht);
+};
+var Car = function(x,y,theta,r,g,b) {
     this.x = x;
     this.y = y;
-    this.gravity = 0;
-    this.gravitySpeed = 0;
-    this.update = function() {
-        ctx = myGameArea.context;
-        if (this.type == "text") {
-            ctx.font = this.width + " " + this.height;
-            ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-    }
-    this.newPos = function() {
-        this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
-        this.hitBottom();
-    }
-    this.hitBottom = function() {
-        var rockbottom = myGameArea.canvas.height - this.height;
-        if (this.y > rockbottom) {
-            this.y = rockbottom;
-            this.gravitySpeed = 0;
-        }
-    }
-    this.crashWith = function(otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-        }
-        return crash;
-    }
-}
-
-function updateGameArea() {
-    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
-    for (i = 0; i < myObstacles.length; i += 1) {
-        if (myGamePiece.crashWith(myObstacles[i])) {
-            return;
+    this.theta = theta;
+    this.red = r;
+    this.green = g;
+    this.blue = b;
+    this.phi = this.theta;
+    this.psi = 0;
+    this.psiHist = [];
+    this.phiHist = [];
+    this.indexHist = 0;
+    this.maxHist = 100;
+    
+    this.computeVel = function(phi, psi) {
+        var ret = [];
+        ret[0] = psi * Math.cos(this.theta);
+        ret[1] = psi * Math.sin(this.theta);
+        ret[2] = phi;
+        return ret;
+    };
+    
+    this.computeDphi = function(phi,psi) {
+        var epsilon = 1E-9;
+        var ret = [];
+        var fx = this.computeVel(phi - epsilon,psi);
+        var fdx = this.computeVel(phi + epsilon,psi);
+        ret[0] = (fdx[0]  - fx[0]) / ( 2 * epsilon);
+        ret[1] = (fdx[1]  - fx[1]) / ( 2 * epsilon);
+        ret[2] = (fdx[2]  - fx[2]) / ( 2 * epsilon);
+        return ret;
+    };
+    
+    this.computeDpsi = function(phi,psi) {
+        var epsilon = 1E-9;
+        var ret = [];
+        var fx = this.computeVel(phi,psi - epsilon);
+        var fdx = this.computeVel(phi ,psi + epsilon);
+        ret[0] = (fdx[0]  - fx[0]) / ( 2 * epsilon);
+        ret[1] = (fdx[1]  - fx[1]) / ( 2 * epsilon);
+        ret[2] = (fdx[2]  - fx[2]) / ( 2 * epsilon);
+        return ret;
+    };
+    
+    this.sqin = function(x) {
+        if(x >= 0 && x < 1){
+            return x;
+        }else if(x >= 1 && x < 3){
+            return 1;
+        }else if(x >= 3 && x < 5){
+            return 1 - (x - 3);
+        }else if(x >= 5 && x < 7){
+            return - 1;
+        }else if(x >= 7 && x < 8){
+            return (x-7) - 1;
+        }else if(x>= 8){
+            return this.sqin(x % 8);
+        }else {
+            return -this.sqin(-x);
         } 
+    };
+    
+    this.cqos = function(x) {
+        return this.sqin(x + 2);
+    };
+    
+    this.init = function(){
+       this.dataX = [];
+       this.dataY = [];
+       this.samples = 25;
+       for(var i = 0; i <= this.samples; i++){
+            var t = (8 / this.samples) * i;
+            this.dataX[i] = 2 * this.cqos(t - 1);
+            this.dataY[i] = this.sqin(t - 1);
+        }
+    };
+    
+    this.cost = function(qref, q, u, dotU) {
+        var cosT = Math.cos(q[2]);
+        var sinT = Math.sin(q[2]);
+        
+        var h = 1E-1;
+        var v = [qref[0] - q[0], qref[1] - q[1], qref[2] - q[2]];
+        return  0.5 * (sq(v[0] -  h * u[0] * cosT + 0.5 * h * h * (u[0] * u[1] * sinT - dotU[0] * cosT)) + sq(v[1] - h * u[0] * sinT - 0.5 * h * h * (u[0] * u[1] * cosT + dotU[0] * sinT)) + sq(v[2] - h * u[1] - 0.5 * h* h * dotU[1]));
+    };
+    
+    this.gradient = function(qref, q, u, dotU) {
+     var h = 1E-3;
+     var dv = (this.cost(qref,q,[u[0] + h, u[1]],[dotU[0], dotU[1]]) - this.cost(qref,q,[u[0] - h, u[1]],[dotU[0], dotU[1]])) / (2 * h);
+     var dw = (this.cost(qref,q,[u[0], u[1] + h],[dotU[0], dotU[1]]) - this.cost(qref,q,[u[0], u[1] - h],[dotU[0], dotU[1]])) / (2 * h);
+     var ddv = (this.cost(qref,q,[u[0], u[1]],[dotU[0] + h, dotU[1]]) - this.cost(qref,q,[u[0], u[1]],[dotU[0] - h, dotU[1]])) / (2 * h);
+     var ddw = (this.cost(qref,q,[u[0], u[1]],[dotU[0], dotU[1] + h]) - this.cost(qref,q,[u[0], u[1]],[dotU[0], dotU[1] - h])) / (2 * h);
+     return [dv , dw, ddv, ddw];
+    };
+    
+    this.control = function(dt) {
+        var h = 1E-3;
+        var epsilon = 1E-10;
+        var maxIte = 80;
+        var ite = 1;
+        var maxVel = 5;
+        var maxRot = 1;
+        //learning rate
+        var alpha = 0.01;
+        var u = [this.psi, this.phi];
+        var dU = [0,0];
+        var grad = [1E10,1E10];
+        while ((grad[0] * grad[0] + grad[1] * grad[1] > epsilon) && (ite < maxIte)) {
+            grad = this.gradient([xObjective, yObjective, thetaObjective], [this.x, this.y, this.theta], u, dU);
+            u[0] = u[0] - alpha * grad[0];
+            u[1] = u[1] - alpha * grad[1];
+            dU[0] = dU[0] - alpha * grad[2];
+            dU[1] = dU[1] - alpha * grad[3];
+            ite = ite + 1;
+        }
+        
+        //println(this.cost([xObjective, yObjective, thetaObjective], [this.x, this.y, this.theta], u));
+        //bound velocity
+        u[0] = max(-maxVel,min(u[0], maxVel));
+        u[1] = max(-maxRot,min(u[1], maxRot));
+        this.psi = u[0] + h * dU[0];
+        this.phi = u[1] + h * dU[1];
+        
+        var vel = this.computeVel(this.phi,this.psi);
+        drawLine(this.x,this.y, this.x + vel[0] , this.y + vel[1]);
+        
+    };
+    
+    this.update = function(dt) {
+        // new control
+        this.control(dt);
+        var vel = this.computeVel(this.phi,this.psi);
+        this.x = this.x + vel[0] * dt;
+        this.y = this.y + vel[1] * dt;
+        this.theta = this.theta + vel[2]*dt;
+    };
+    
+    this.drawCar = function() {
+        var x = [];
+        var y = [];
+        for(var i = 0; i <= this.samples; i++) {
+            x[i] = this.dataX[i] * Math.cos(this.theta) - this.dataY[i] * Math.sin(this.theta);
+            y[i] = this.dataX[i] * Math.sin(this.theta) + this.dataY[i] * Math.cos(this.theta);
+            x[i] = x[i] + this.x;
+            y[i] = y[i] + this.y;
+        }
+        stroke(this.red,this.green,this.blue);
+        for(var i = 0; i < this.samples; i++) {
+            drawLine(x[i],y[i], x[i+1], y[i+1]);
+        }
+    };
+};
+var init = function() {
+    oldTime = millis() * 1E-3;
+    /*for(var i = 0; i < numOfCars; i++) {
+        cars[i] = new Car(random(-13,11),
+                          random(-12,14),
+                          random(0,2 * Math.PI),
+                          random(0,255),
+                          random(0,255),
+                          random(0,255));
+        cars[i].init();
+    }*/
+    cars[0] = new Car(0,0,0,0,0,255);
+    cars[1] = new Car(10,12,Math.PI / 2,255,0,0);
+    cars[2] = new Car(10,2,Math.PI / 2,255,0,0);
+    for(var i = 0; i < numOfCars; i++) {
+        cars[i].init();
     }
-    myGameArea.clear();
-    myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(150)) {
-        x = myGameArea.canvas.width;
-        minHeight = 20;
-        maxHeight = 200;
-        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-        minGap = 50;
-        maxGap = 200;
-        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(10, height, "green", x, 0));
-        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+    xObjective = 0;
+    yObjective = 0;
+    thetaObjective = 0;
+};
+init();
+var mouseClicked = function() {
+    xObjective = inverseXcoord(mouseX);
+    yObjective = inverseYcoord(mouseY);
+};
+var keyPressed = function() {
+    // Conditionally display based on string value 
+    if (key.toString() === '+') {
+        thetaObjective += Math.PI /12;
     }
-    for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -1;
-        myObstacles[i].update();
+     if (key.toString() === '-') {
+        thetaObjective -= Math.PI /12;
     }
-    myScore.text="SCORE: " + myGameArea.frameNo;
-    myScore.update();
-    myGamePiece.newPos();
-    myGamePiece.update();
-}
-
-function everyinterval(n) {
-    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
-    return false;
-}
-
-function accelerate(n) {
-    myGamePiece.gravity = n;
-}
-
-</script>
-<br>
-
-<button onmousedown="accelerate(0.2)" onmouseup="accelerate(-0.5)" class="btn btn-primary">ACCELERATE</button>
-
-
+};
+var carUpdate = function(dt) {
+    cars[0].update(dt);
+    for(var i = 0; i < numOfCars; i++) {
+        cars[i].drawCar();
+    }
+    
+};
+var draw = function() {
+    background(255, 255, 255);
+     /**
+     * time in seconds
+     */
+    currentTime = millis() * 1E-3;
+    var	dt = currentTime - oldTime;
+	oldTime = currentTime;
+	carUpdate(dt);
+	var carfinal = new Car(xObjective,yObjective,thetaObjective, 0,255,0);
+	carfinal.init();
+	carfinal.drawCar();
+};
+        }
+        if (typeof draw !== 'undefined') processing.draw = draw;
+    });
+  </script>
 </body>
 </html>
