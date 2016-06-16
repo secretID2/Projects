@@ -115,7 +115,7 @@ function ButtonControl(price){
 
 function Change(){
 	var change=0;
-	 change=Math.abs(total_price-payment);
+	 change=payment-total_price;
 	//change = Math.abs(parseFloat($("#totalPricePay").val())-parseFloat($("#payment").val()));
 	$("#change").html(change);	
 }
