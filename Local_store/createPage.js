@@ -39,7 +39,7 @@ window.onload = function init() {
 	 while(i<price.length){
 		 str="b"+i;
 		Button=document.getElementById(str);
-		 f= new Function('','total_price+='+Math.round(price[i])+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();');
+		 f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();');
 		
 		Button.addEventListener("click",f,false);
 		i++;
@@ -53,7 +53,7 @@ window.onload = function init() {
 		Button=document.getElementById(str);
 		var Text=$("#"+str+"").text();
 		// var num=parseInt(Text);
-		f= new Function('','payment+='+Math.round(parseFloat(Text))+';$("#payment").html(payment);$("#payment").attr({"value":payment});Change();');
+		f= new Function('','payment+='+parseFloat(Text)+';$("#payment").html(payment);$("#payment").attr({"value":payment});Change();');
 		Button.addEventListener("click",f,false);
 		i++;
 		str="m"+i;
