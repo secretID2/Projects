@@ -2,6 +2,7 @@
 
 var total_price=0;
 var payment=0;
+var countSells;
 // var name=[];
 // var price=[];
 window.onload = function init() {
@@ -15,6 +16,8 @@ window.onload = function init() {
 	 
 	 var name=getName();	
 	 var price= getPrice();
+	 countSells=PrepareSells(name);
+	 PrintSells();
 	var i=0;
 	var str="b"+i;
 	while(i<name.length){
@@ -39,8 +42,8 @@ window.onload = function init() {
 	 while(i<price.length){
 		 str="b"+i;
 		Button=document.getElementById(str);
-		 f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();');
-		
+		 //f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();incrementSellDB('+i+','+countSells+');PrintSells('+countSells+');');
+		f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();incrementSellDB('+i+');'); 	
 		Button.addEventListener("click",f,false);
 		i++;
 	 }	
@@ -115,8 +118,40 @@ function ButtonControl(price){
 
 function Change(){
 	var change=0;
-	 change=Math.abs(total_price-payment);
+	 change=payment-total_price;
 	//change = Math.abs(parseFloat($("#totalPricePay").val())-parseFloat($("#payment").val()));
 	$("#change").html(change);	
 }
 
+function PrepareSells(name){
+	var countDB=[];
+	var i=0;
+	var array=[];
+	while(i<name.length){
+		array =[];
+		array.push(name[i]);
+		array.push(0);
+		countDB.push(array);
+		
+		i++;
+	}
+	return countDB;
+	
+}
+function incrementSellDB(i){
+	countSells[i][1]++;
+	var str="p"+i;
+	$("#"+str+"").text(countSells[i][0]+": "+countSells[i][1]);
+}
+function PrintSells(){
+	var i=0;
+	var str="p"+i;
+	while(i<countSells.length){
+		
+		$("#DB").append("<p id="+str+">"+countSells[i][0]+": "+countSells[i][1]+"</button>");
+	
+		
+		i++;
+		str="p"+i;
+	}
+}
