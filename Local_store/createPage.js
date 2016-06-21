@@ -14,7 +14,7 @@ window.onload = function init() {
 	var clearButton=document.getElementById("clear");
 	clearButton.addEventListener("click", Reset,false);
 	 var name,price;
-	 if(window.location.hash.localeCompare("")!=0){
+	 if(window.location.search.localeCompare("")!=0){
 		 name=ReadHashName();	
 		 price= ReadHashPrice();
 	 }
@@ -54,7 +54,7 @@ window.onload = function init() {
 		 //f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();incrementSellDB('+i+','+countSells+');PrintSells('+countSells+');');
 		f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();incrementSellDB('+i+');'); 	
 		Button.addEventListener("click",f,false);
-		document.location.hash += name[i]+","+price[i]+";";
+		//document.location.hash += name[i]+","+price[i]+";";
 		i++;
 	 }	
 	 
@@ -182,7 +182,7 @@ function ResetSells(){
 function ReadHashName(){
 	
 	
-		var query = window.location.hash;
+		var query = window.location.search;
 	var i=0;
 	
 	var str;
@@ -200,7 +200,7 @@ function ReadHashName(){
 function ReadHashPrice(){
 	
 	
-		var query = window.location.hash;
+		var query = window.location.search;
 	var i=0;
 	
 	var str;
