@@ -190,8 +190,10 @@ function ReadHashName(){
 	str=query.split(";");
 	var name=[];
 	for (i=0;i<str.length && str[i].localeCompare("")!=0;i++){
-		str_aux=str[i].split(",");
 		
+		str_aux=str[i].split(",");
+		if(i==0)
+			str_aux[0]=str_aux[0].substring(1);
 		name.push(str_aux[0]);
 		//alert(str);
 	}
