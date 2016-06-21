@@ -13,11 +13,20 @@ window.onload = function init() {
 	//var name= document.cookie.split(",");
 	var clearButton=document.getElementById("clear");
 	clearButton.addEventListener("click", Reset,false);
-	 
-	 var name=getName();	
-	 var price= getPrice();
+	 var name,price;
+	 if(window.location.hash.localeCompare("")!=0){
+		 name=ReadHashName();	
+		 price= ReadHashPrice();
+	 }
+	 else{
+		name=getName();	
+		price= getPrice();
+	 }
 	 countSells=PrepareSells(name);
 	 PrintSells();
+	 var query = window.location.hash;
+	console.log(query);
+	 //document.location.hash = "?";
 	var i=0;
 	var str="b"+i;
 	while(i<name.length){
@@ -45,6 +54,7 @@ window.onload = function init() {
 		 //f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();incrementSellDB('+i+','+countSells+');PrintSells('+countSells+');');
 		f= new Function('','total_price+='+price[i]+';$("#totalPricePay").html(total_price);$("#totalPricePay").attr({"value":total_price});Change();incrementSellDB('+i+');'); 	
 		Button.addEventListener("click",f,false);
+		document.location.hash += name[i]+","+price[i]+";";
 		i++;
 	 }	
 	 
@@ -62,7 +72,8 @@ window.onload = function init() {
 		str="m"+i;
 	}
 	 
-		
+		 // var query = window.location.hash;
+		 // console.log(query);
 	
 }
 function Reset(){
@@ -71,6 +82,7 @@ function Reset(){
 	$("#totalPricePay").html(total_price);
 	$("#payment").html(payment);
 	$("#change").html(0);
+	ResetSells();
 	
 }
 
@@ -155,3 +167,51 @@ function PrintSells(){
 		str="p"+i;
 	}
 }
+function ResetSells(){
+	var i=0;
+	var str="p"+i;
+	while(i<countSells.length){
+		
+		countSells[i][1]=0;
+		$("#"+str+"").html(countSells[i][0]+": "+countSells[i][1]);
+		
+		i++;
+		str="p"+i;
+	}
+}
+function ReadHashName(){
+	
+	
+		var query = window.location.hash;
+	var i=0;
+	
+	var str;
+	var str_aux;
+	str=query.split(";");
+	var name=[];
+	for (i=0;i<str.length && str[i].localeCompare("")!=0;i++){
+		str_aux=str[i].split(",");
+		
+		name.push(str_aux[0]);
+		//alert(str);
+	}
+	return name;
+}
+function ReadHashPrice(){
+	
+	
+		var query = window.location.hash;
+	var i=0;
+	
+	var str;
+	var str_aux;
+	str=query.split(";");
+	var price=[];
+	for (i=0;i<str.length && str[i].localeCompare("")!=0;i++){
+		str_aux=str[i].split(",");
+		price.push(str_aux[1]);
+		//alert(str);
+	}
+	return price;
+}
+	
