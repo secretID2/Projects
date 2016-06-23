@@ -56,6 +56,8 @@ function QRgenerate(){
 	$("#qr_img").attr("src","https://api.qrserver.com/v1/create-qr-code/?data="+urlStr+"&amp;size=100x100");
 	$("#qr_img").attr("style","");
 	console.log(document.getElementById("qr_img").getAttribute("src"));
+	$("#output").html(urlStr);
+	
 }
 
 function getName(){
