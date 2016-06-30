@@ -29,11 +29,23 @@
 				}, errBack);
 			}
 
-			// Trigger photo take
-			document.getElementById("snap").addEventListener("click", function() {
-				context.drawImage(video, 0, 0, 640, 480);
-			});
+//			// Trigger photo take
+//			document.getElementById("snap").addEventListener("click", function() {
+//				context.drawImage(video, 0, 0, 640, 480);
+//			});
+            
+            
+            
+            video.addEventListener('mousedown', function(evt) {
+                context.drawImage(video, 0, 0, 640, 480);
+            }, false);
+            
+            
+            
 		}, false);
+
+
+//var canvas = document.getElementById("canvas");
 
 // Converts image to canvas; returns new canvas element
 function convertImageToCanvas(image) {
@@ -45,4 +57,27 @@ function convertImageToCanvas(image) {
 	return canvas;
 }
 
-	
+// Converts canvas to an image
+function convertCanvasToImage(canvas) {
+	var image = new Image();
+	image.src = canvas.toDataURL("image/png");
+	return image;
+}
+
+
+
+function writeMessage(canvas, message) {
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.font = '18pt Calibri';
+        context.fillStyle = 'black';
+        context.fillText(message, 10, 25);
+      }
+
+      function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+      }
