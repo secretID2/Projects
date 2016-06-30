@@ -1,0 +1,17 @@
+<!--
+	Ideally these elements aren't created until it's confirmed that the 
+	client supports video/camera, but for the sake of illustrating the 
+	elements involved, they are created with markup (not JavaScript)
+-->
+<html>
+<head>
+<script  src="ImageP.js"></script>
+</head>
+<body>
+<label for="videoSource">Video source: </label>
+<select id="videoSource"><option value="aecec0a7682be5b70ae5f80ef0f2248f885ea0eeedb18e3c8865eaf81cc51a15">camera 1</option></select>
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+</body>
+</html>
