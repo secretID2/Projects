@@ -46,7 +46,20 @@ function invert_color(){
              }
     return imageData;
 }
-
+function light_up(){
+    var imageData = context.getImageData(0,0,canvas.width, canvas.height);
+    var data = imageData.data;
+    
+                
+        for (var i = 0; i < data.length; i += 4) {
+              data[i]     +=40;     // red
+              data[i + 1] += 20 ; // green
+              data[i + 2] += 20 ; // blue
+                    
+                    
+             }
+    return imageData;
+}
 
 function grayscale(){
     var imageData = context.getImageData(0,0,canvas.width, canvas.height);
@@ -80,14 +93,15 @@ function detect_change(){
 //      data[i]     = avg; // red
 //      data[i + 1] = avg; // green
 //      data[i + 2] = avg; // blue
-        if(data[i]<data[i+1] && data[i+2]>data[i+1] && data[i+2]>200){
+        if(data[i]<data[i+1] && data[i+2]>data[i+1] && data[i+2]>200 && data[i]<160){
             data[i+1]=255;
             data[i]=0;
             data[i+2]=0;
         }
         else{
             
-           
+           data[i]=0;
+            data[i+2]=0;
             
         }
     }
@@ -98,8 +112,9 @@ function detect_change(){
 function draw(){
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
           //var imageData =grayscale();
-            var imageData=detect_change();    
-            context.putImageData(imageData, 0, 0);
+            //var imageData=detect_change();    
+        var imageData=light_up();    
+        context.putImageData(imageData, 0, 0);
           requestAnimationFrame(draw);   
  }
       
