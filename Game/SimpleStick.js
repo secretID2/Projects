@@ -80,7 +80,7 @@ function draw() {
     startTime = new Date().getTime();
     time += dt;
     //put canvas with white color
-    ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     //put an image over other
     //ctx.globalCompositeOperation = 'source-over';
     //draw a rect in position 0,0 with canvas with and height
@@ -93,12 +93,12 @@ function draw() {
     var animationIndex = Math.floor(fps * t);
     var animationFrame = animationImg[animationIndex];
     if(animationFrame.isReady) {
-        ctx.drawImage(animationFrame,mouse[1]-100,mouse[0]-100,200,200);
-//		pos=Nextpos();
-//        x=pos[0];
-//        y=pos[1];
-//		console.log("x: "+x+"  y: "+y)
-//		ctx.drawImage(animationFrame,x,y,200,200);
+        //ctx.drawImage(animationFrame,mouse[1]-100,mouse[0]-100,200,200);
+		pos=Follow(dt);
+        x=pos[0];
+        y=pos[1];
+		console.log("x: "+x+"  y: "+y)
+		ctx.drawImage(animationFrame,x,y,200,200);
     }
     /**
     *
@@ -153,6 +153,32 @@ function Nextpos(){
 			// console.log(pos[0]);
 			return pos;
 		}
+
+function Follow(dt){
+    var inc_x =2;
+    var inc_y =2; 
+    var dirx=0,diry=0;
+    dirx=mouse[1]-x;
+    diry=mouse[0]-y;
+//    if(diry<0)
+//        inc_y=-inc_y;
+//    if(diry==0)
+//        inc_y=0;
+//    if(dirx<0)
+//        inc_x=-inc_x;
+//    if(dirx==0)
+//        inc_x=0;
+    
+//    x+=inc_x;
+//    y+=inc_y;
+    x+=Math.floor(dirx*0.1);
+    y+=Math.floor(diry*0.1);
+    pos[0]=x;
+    pos[1]=y;
+    // console.log(pos[0]);
+	return pos;
+    
+}
 function drawRectangle(myRectangle, context) {
         context.beginPath();
         context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
