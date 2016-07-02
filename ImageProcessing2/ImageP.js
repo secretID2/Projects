@@ -111,9 +111,9 @@ function detect_change(){
 
 function draw(){
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          //var imageData =grayscale();
+          var imageData =invert_color();
             //var imageData=detect_change();    
-        var imageData=light_up();    
+        //var imageData=light_up();    
         context.putImageData(imageData, 0, 0);
           requestAnimationFrame(draw);   
  }
