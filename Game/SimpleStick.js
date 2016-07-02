@@ -76,6 +76,7 @@ function mouseMove(e) {
 };
 
 function draw() {
+    var tx=0,ty=0;
     var dt = 1E-3 * (new Date().getTime() - startTime);
     startTime = new Date().getTime();
     time += dt;
@@ -97,8 +98,11 @@ function draw() {
 		pos=Follow(dt);
         x=pos[0];
         y=pos[1];
-		console.log("x: "+x+"  y: "+y)
-		ctx.drawImage(animationFrame,x-100,y-100,200,200);
+		//console.log("x: "+x+"  y: "+y)
+        console.log(window.innerWidth);
+        tx=200/window.innerWidth;
+        ty=200/window.innerHeight;
+		ctx.drawImage(animationFrame,x-100,y-100,window.innerWidth*tx,window.innerHeight*ty);
     }
     /**
     *
