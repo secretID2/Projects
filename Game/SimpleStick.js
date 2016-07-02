@@ -98,7 +98,7 @@ function draw() {
         x=pos[0];
         y=pos[1];
 		console.log("x: "+x+"  y: "+y)
-		ctx.drawImage(animationFrame,x,y,200,200);
+		ctx.drawImage(animationFrame,x-100,y-100,200,200);
     }
     /**
     *
