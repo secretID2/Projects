@@ -111,25 +111,51 @@ function detect_change(){
 
 function draw(){
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          var imageData =invert_color();
+          //var imageData =grayscale();
             //var imageData=detect_change();    
-        //var imageData=light_up();    
+        var imageData=invert_color();    
         context.putImageData(imageData, 0, 0);
           requestAnimationFrame(draw);   
  }
       
 function draw2(){
-          context2.drawImage(video, 0, 0, canvas.width, canvas.height);
+          context2.drawImage(video, 0, 0, canvas2.width, canvas2.height);
           //var imageData =grayscale();
 //            var imageData=detect_change();    
 //            context.putImageData(imageData, 0, 0);
           requestAnimationFrame(draw2);   
  }
+function fullscreenc1(){
+           var el = document.getElementById("canvas");
+            el.width=window.innerWidth;
+            el.height=window.innerHeight;
+ 
+           if(el.webkitRequestFullScreen) {
+               el.webkitRequestFullScreen();
+           }
+          else {
+             el.mozRequestFullScreen();
+          }            
+}
+function fullscreenc2(){
+           var el = document.getElementById("canvas2");
+            el.width=window.innerWidth;
+            el.height=window.innerHeight;
+ 
+           if(el.webkitRequestFullScreen) {
+               el.webkitRequestFullScreen();
+           }
+          else {
+             el.mozRequestFullScreen();
+          }            
+}
 
             
 //Main
 init();
 canvas2.addEventListener('mousemove', pick);
+canvas.addEventListener('click',fullscreenc1);
+canvas2.addEventListener("click",fullscreenc2);
 //video.addEventListener("mousedown",function(){context.drawImage(video, 0, 0, canvas.width, canvas.height);});
 requestAnimationFrame(draw);   
 requestAnimationFrame(draw2);   
