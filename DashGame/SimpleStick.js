@@ -14,17 +14,9 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
-var num_ememies=7;
+var num_ememies=5;
 var enemies=[];
-var Enemy={
-    x:0,
-    y:0,
-    width:100,
-    height:100,
-    dirx:0,
-    diry:0,
-    active:true
-}
+
 
 /**
 *  Utils
@@ -173,26 +165,26 @@ function  createEnemy(){
     if(ran==0){
       this.x=0;
       this.y=Math.random()*canvas.height;   
-      this.dirx=Math.random()*10;
-      this.diry=Math.random()*10;
+      this.dirx=Math.random()*canvas.width*0.01;
+      this.diry=Math.random()*canvas.height*0.01;
     }
     if(ran==1){
       this.x=canvas.width;
       this.y=Math.random()*canvas.height;   
-      this.dirx=Math.random()*-10;
-      this.diry=Math.random()*-10;
+      this.dirx=Math.random()*-canvas.width*0.01;
+      this.diry=Math.random()*-canvas.height*0.01;
     }
     if(ran==2){
       this.x=Math.random()*canvas.width;
       this.y=canvas.height;   
-        this.dirx=Math.random()*-10;
-      this.diry=Math.random()*-10;
+        this.dirx=Math.random()*-canvas.width*0.01;
+      this.diry=Math.random()*-canvas.height*0.01;
     }
     if(ran==3){
       this.x=Math.random()*canvas.width;
       this.y=0;    
-        this.dirx=Math.random()*10;
-      this.diry=Math.random()*10;
+        this.dirx=Math.random()*canvas.width*0.01;
+      this.diry=Math.random()*canvas.height*0.01;
     }
     //this.x=Math.random()*canvas.width;
     //this.y=Math.random()*canvas.height;
