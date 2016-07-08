@@ -14,6 +14,18 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
+var num_ememies=5;
+var enemies=[];
+var Enemy={
+    x:0,
+    y:0,
+    width:100,
+    height:100,
+    dirx:0,
+    diry:0,
+    active:true
+}
+
 /**
 *  Utils
 **/
@@ -43,6 +55,10 @@ function init() {
     width = canvas.width;
     height = canvas.height;
     mouse = [0,0];
+    
+    for(var i=0;i<num_ememies;i++){
+        enemies[i]=new createEnemy();
+    }
 }
 
 function keyDown(e) {
@@ -130,22 +146,40 @@ function draw() {
     **/
     //ctx.drawImage(animationFrame,0,0);
     //MakeEnemy();
-    ctx.fillStyle = "black";
-     ctx.font = "bold 16px Arial";
-    ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0], mouse[1], mouse[0]);
-
+//    ctx.fillStyle = "black";
+//     ctx.font = "bold 16px Arial";
+//    ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0], mouse[1], mouse[0]);
+    MoveEnemies();
     requestAnimationFrame(draw);
 }
-function MakeEnemy(){
-    var myRectangle = {
-        x: 20,
-        y: 20,
-        width: size*canvas.width,
-        height:size*canvas.height ,
-        borderWidth: 2
-    };
-    drawRectangle(myRectangle, ctx);
+function MoveEnemies(){
+   for(var i=0;i<num_ememies;i++){
+       if(!enemies[i].active){
+           enemies[i]=new createEnemy();
+           drawRectangle(enemies[i],ctx);
+       }
+       else{
+           enemies[i].x+=enemies[i].dirx;
+           enemies[i].y+=enemies[i].diry;
+           drawRectangle(enemies[i],ctx);
+           if(enemies[i].x<=0 || enemies[i].x>=canvas.width || enemies[i].y<=0 || enemies[i].y>=canvas.height){
+               enemies[i].active=false;
+           }
+       }
+   }
 }
+function  createEnemy(){
+    
+    this.x=Math.random()*canvas.width;
+    this.y=Math.random()*canvas.height;
+    this.dirx=Math.random()*10;
+    this.diry=Math.random()*10;
+    this.width=canvas.width*0.05;
+    this.height=canvas.width*0.05; 
+    this.active=true;    
+    
+}
+
 function Nextpos(){
 			var inc_x =2;
 			var inc_y =2; 
@@ -224,7 +258,7 @@ function Follow(dt){
         pos[3]=dirx/10;
         pos[4]=diry/10;
     }
-     else if(dirx<-40 && (diry/dirx)<=0.5 && (diry/dirx)>=-0.5){
+     else if(dirx<-40 && (diry/dirx)<=1 && (diry/dirx)>=-1){
         pos[2]=5;
          finalindex=3;
          pos[3]=dirx/10;
@@ -254,9 +288,9 @@ function drawRectangle(myRectangle, context) {
         context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
         //context.fillStyle = '#8ED6FF';
         context.fill();
-        context.lineWidth = myRectangle.borderWidth;
-        context.strokeStyle = 'black';
-        context.stroke();
+//        context.lineWidth = myRectangle.borderWidth;
+//        context.strokeStyle = 'black';
+//        context.stroke();
 }
 function readTextFile(file)
 {
