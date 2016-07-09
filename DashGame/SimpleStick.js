@@ -14,7 +14,7 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
-var num_ememies=5;
+var num_ememies=10;
 var enemies=[];
 
 
@@ -131,6 +131,7 @@ function draw() {
         }
         ctx.globalAlpha = 1.0;
         ctx.drawImage(animationFrame,x-size*canvas.width/2,y-size*canvas.height/2,size*canvas.width,size*canvas.height);
+        //ctx.drawImage(animationFrame,x,y,size*canvas.width,size*canvas.height);
         
     }
     /**
@@ -140,7 +141,7 @@ function draw() {
     //MakeEnemy();
 //    ctx.fillStyle = "black";
 //     ctx.font = "bold 16px Arial";
-//    ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0], mouse[1], mouse[0]);
+//    ctx.fillText("x : " + x +  " y: " + y, mouse[1], mouse[0]);
     MoveEnemies();
     requestAnimationFrame(draw);
 }
@@ -149,14 +150,21 @@ function MoveEnemies(){
        if(!enemies[i].active){
            enemies[i]=new createEnemy();
            drawRectangle(enemies[i],ctx);
+           
        }
        else{
            enemies[i].x+=enemies[i].dirx;
            enemies[i].y+=enemies[i].diry;
+           
            drawRectangle(enemies[i],ctx);
+           
            if(enemies[i].x<=0 || enemies[i].x>=canvas.width || enemies[i].y<=0 || enemies[i].y>=canvas.height){
                enemies[i].active=false;
            }
+           if(DetectColision(enemies[i])){
+               PrintCanvas("1");
+           }
+           else{}//PrintCanvas("0");}
        }
    }
 }
@@ -195,7 +203,52 @@ function  createEnemy(){
     this.active=true;    
     
 }
-
+function DetectColision(enemy){
+//        var stick_centrex=Math.abs(size*canvas.width-x)/2;
+//        var stick_centrey=Math.abs(size*canvas.height-y)/2;
+        var enemy_centrex=enemy.x+enemy.width/2;
+        var enemy_centrey=enemy.y+enemy.height/2;
+        var stick_centrex=x;
+        var stick_centrey=y;
+       
+      
+//        ctx.fillStyle = "gray";
+//     ctx.font = "bold 16px Arial";
+//    ctx.fillText("x : " + enemy_centrex +  " y: " +enemy_centrey , enemy_centrex, enemy_centrey);
+//    
+//     ctx.fillStyle = "red";
+//     ctx.font = "bold 16px Arial";
+//    ctx.fillText("x : " + Math.round(Math.abs(stick_centrex-enemy_centrex)) +  " y: " +Math.round(Math.abs(stick_centrey-enemy_centrey)), stick_centrex, stick_centrey);
+     
+//        ctx.beginPath();
+//        //ctx.moveTo(enemy_centrex,enemy_centrey);
+//        ctx.moveTo(stick_centrex,stick_centrey);
+//        ctx.lineTo(enemy_centrex,enemy_centrey);
+//     ctx.strokeStyle='red';
+//        ctx.stroke();
+       
+        if(Math.abs(stick_centrex-enemy_centrex)<enemy.width/2 && Math.abs(stick_centrey-enemy_centrey)<enemy.height/2 ){
+             //PrintCanvas(0.9*canvas.with,0.9*canvas.height,"1");
+            
+            return true;
+        }
+        else{
+            //PrintCanvas(0.9*canvas.with,0.9*canvas.height,"0");
+            return false;
+        }
+    
+}
+function PrintCanvas(str){
+   var posx=0.9*canvas.width;
+    var posy=0.9*canvas.height;
+    if(str=="1"){
+        posx=0.8*canvas.width;
+        posy=0.8*canvas.height;
+    }
+    ctx.fillStyle="red";
+    ctx.font = "bold 100px Arial";
+    ctx.fillText(str,posx, posy);
+}
 function Nextpos(){
 			var inc_x =2;
 			var inc_y =2; 
@@ -204,8 +257,7 @@ function Nextpos(){
 			if(x<=  0 ) {inc_x=+10;positivex=1}
 			if(y>=canvas.height ) {inc_y=-10;positivey=0}
 			if(y<=  0 ) {inc_y=+10;positivey=1}
-			console.log("incx0: "+inc_x);
-			console.log("incy0: "+inc_y);
+			
 			if(positivex==1){
 				if(inc_x<0)
 					inc_x=-inc_x;
@@ -222,8 +274,7 @@ function Nextpos(){
 				if(inc_y>0)
 					inc_y=-inc_y;
 			}
-			console.log("incx: "+inc_x);
-			console.log("incy: "+inc_y);
+			
 			x+=inc_x;
 			y+=inc_y;
 			 pos[0]=x;
@@ -264,8 +315,7 @@ function Follow(dt){
     x+=Math.floor(dirx*0.1)/2;
     y+=Math.floor(diry*0.1)/2;
     
-    console.log("dirx:"+dirx);
-    console.log("diry:"+diry);
+    
     pos[0]=x;
     pos[1]=y;
     if(dirx>40 && (diry/dirx)<=1 && (diry/dirx)>=-1){
