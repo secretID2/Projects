@@ -14,9 +14,14 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
-var num_ememies=10;
+var num_ememies=5;
 var enemies=[];
-
+var state=0;
+var score=0;
+var lives=3;
+if(localStorage.getItem("DashGame")==null){
+    localStorage.setItem("DashGame",score);
+}
 
 /**
 *  Utils
@@ -36,6 +41,8 @@ function init() {
     canvas.addEventListener("mouseup", mouseUp, false);
     canvas.addEventListener("mousemove", mouseMove, false);
     document.addEventListener("keydown", keyDown, false);
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
    var address = "img/p0.txt";
     numOfFrames=readTextFile(address);
     address="img/p";
@@ -91,7 +98,7 @@ function draw() {
     
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
-   
+   if(state==1){
     var dt = 1E-3 * (new Date().getTime() - startTime);
     startTime = new Date().getTime();
     time += dt;
@@ -109,9 +116,17 @@ function draw() {
     var t = (time % (numOfFrames / fps));
     var animationIndex = Math.floor(fps * t);
     var animationFrame = animationImg[animationIndex];
-    pos=Follow(dt);
+    if(x>canvas.width || x<0 || y>canvas.height || y<0){            
+            mouse[0]=0;
+            mouse[1]=0;    
+            x=0;
+            y=0;
+        }
+    else{
+        pos=Follow(dt);
         x=pos[0];
         y=pos[1];
+    }
         animationFrame = animationImg[pos[2]];
     if(animationFrame.isReady) {
         //ctx.drawImage(animationFrame,mouse[1]-100,mouse[0]-100,200,200);
@@ -130,6 +145,7 @@ function draw() {
             
         }
         ctx.globalAlpha = 1.0;
+        //ctx.drawImage(animationFrame,x-size*canvas.width/2,y-size*canvas.height/2,size*canvas.width,size*canvas.height);
         ctx.drawImage(animationFrame,x-size*canvas.width/2,y-size*canvas.height/2,size*canvas.width,size*canvas.height);
         //ctx.drawImage(animationFrame,x,y,size*canvas.width,size*canvas.height);
         
@@ -142,9 +158,74 @@ function draw() {
 //    ctx.fillStyle = "black";
 //     ctx.font = "bold 16px Arial";
 //    ctx.fillText("x : " + x +  " y: " + y, mouse[1], mouse[0]);
+//    var myrect={
+//            x:500,
+//            y:500,
+//            with:size*canvas.width,
+//            height:size*canvas.height
+//            
+//        }
+//       drawRectangle(myrect,ctx);
+//    var maxwh=Math.max(canvas.width,canvas.height);
+//    var enemywidth=maxwh*0.03;
+//    
+//    var enemyheight=maxwh*0.03; 
+//    ctx.rect(x-enemywidth/2, y-enemyheight/2, enemywidth,enemyheight);
+//    ctx.stroke();
+//    ctx.beginPath();
+//        ctx.rect(myrect.x, myrect.y, myrect.width, myrect.height);
+//        //context.fillStyle = '#8ED6FF';
+//        ctx.fill();
     MoveEnemies();
+   }
+    else{Menu();}
     requestAnimationFrame(draw);
 }
+
+function Menu(){
+    var rectx,recty,rect_width,rect_height;
+    var best_score=localStorage.getItem("DashGame");
+    rectx=0.5*canvas.width;
+    recty=0.5*canvas.height;
+    rect_width=0.2*canvas.width;
+    rect_height=0.1*canvas.height;
+    ctx.rect(rectx-rect_width/2, recty-rect_height/2, rect_width,rect_height);
+    ctx.fill();
+    ctx.fillStyle = "white";
+    var text_size=rect_width*0.1;
+    ctx.font = "bold 16px Arial";
+    ctx.fillText("Touch Here to play", rectx-rect_width/2+rect_width/4, recty-rect_height/2+rect_height/2);
+   console.log("rectx: "+rectx);
+        console.log("recty: "+recty);
+        console.log("rectwidth: "+rect_width);
+        console.log("rect height: "+rect_height);
+        console.log("x: "+mouse[1]);
+        console.log("y: "+mouse[0]);
+//    if(down)
+//        console.log("down=true");
+//    if( mouse[1]<=rect_width )
+//        console.log("Entrou no quadrado X");
+//    if(mouse[0]>=recty && mouse[0]<=rect_height)
+//        console.log("Entrou no quadrado YY");
+    if(down==true && mouse[1]>=rectx-rect_width/2 && mouse[1]<=rect_width+rectx-rect_width/2 && mouse[0]>=recty-rect_height/2 && mouse[0]<=rect_height+recty-rect_height/2){
+        state=1;
+        lives=3;
+        time=0;
+        
+    }
+    ctx.fillStyle = "black";
+    ctx.font = "bold 16px Arial";
+    ctx.fillText("Score: "+score, 0.5*canvas.width, 0.65*canvas.height);
+       
+    ctx.fillText("Best Score: "+best_score, 0.5*canvas.width, 0.70*canvas.height);
+    ctx.fillStyle = "black";
+     ctx.font = "bold 16px Arial";
+    ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0]+ " mousedown: "+ down, mouse[1], mouse[0]);
+}
+
+
+
+
 function MoveEnemies(){
    for(var i=0;i<num_ememies;i++){
        if(!enemies[i].active){
@@ -155,14 +236,26 @@ function MoveEnemies(){
        else{
            enemies[i].x+=enemies[i].dirx;
            enemies[i].y+=enemies[i].diry;
-           
+//           enemies[i].x+=0.1;
+//           enemies[i].y+=0.1;
            drawRectangle(enemies[i],ctx);
            
            if(enemies[i].x<=0 || enemies[i].x>=canvas.width || enemies[i].y<=0 || enemies[i].y>=canvas.height){
                enemies[i].active=false;
            }
            if(DetectColision(enemies[i])){
-               PrintCanvas("1");
+               PrintCanvas(lives);
+               lives--;
+               if(lives==0){
+                   //end game
+                   state=0;
+                   score=Math.round(time);
+                   var best_score=localStorage.getItem("DashGame");
+                   if (score>best_score){
+                       best_score=score;
+                       localStorage.setItem("DashGame",best_score);
+                   }
+               }
            }
            else{}//PrintCanvas("0");}
        }
@@ -198,8 +291,9 @@ function  createEnemy(){
     //this.y=Math.random()*canvas.height;
     //this.dirx=Math.random()*10;
     //this.diry=Math.random()*10;
-    this.width=canvas.width*0.03;
-    this.height=canvas.width*0.03; 
+    var maxwh=Math.max(canvas.width,canvas.height);
+    this.width=maxwh*0.03;
+    this.height=maxwh*0.03; 
     this.active=true;    
     
 }
@@ -210,8 +304,8 @@ function DetectColision(enemy){
         var enemy_centrey=enemy.y+enemy.height/2;
         var stick_centrex=x;
         var stick_centrey=y;
-       
-      
+        var stick_width=size*canvas.width;
+        var stick_height=size*canvas.height;
 //        ctx.fillStyle = "gray";
 //     ctx.font = "bold 16px Arial";
 //    ctx.fillText("x : " + enemy_centrex +  " y: " +enemy_centrey , enemy_centrex, enemy_centrey);
@@ -226,10 +320,13 @@ function DetectColision(enemy){
 //        ctx.lineTo(enemy_centrex,enemy_centrey);
 //     ctx.strokeStyle='red';
 //        ctx.stroke();
-       
-        if(Math.abs(stick_centrex-enemy_centrex)<enemy.width/2 && Math.abs(stick_centrey-enemy_centrey)<enemy.height/2 ){
+    
+    
+        
+//        if(Math.abs(stick_centrex-enemy_centrex)<(enemy.width/2+stick_width/2) && Math.abs(stick_centrey-enemy_centrey)<(enemy.height/2+stick_height/2) ){
+     if(Math.abs(stick_centrex-enemy_centrex) < enemy.width && Math.abs(stick_centrey-enemy_centrey)< enemy.height*1.8){
              //PrintCanvas(0.9*canvas.with,0.9*canvas.height,"1");
-            
+            //console.log(enemy.width/2);
             return true;
         }
         else{
@@ -247,7 +344,7 @@ function PrintCanvas(str){
     }
     ctx.fillStyle="red";
     ctx.font = "bold 100px Arial";
-    ctx.fillText(str,posx, posy);
+    ctx.fillText(str,x, y);
 }
 function Nextpos(){
 			var inc_x =2;
