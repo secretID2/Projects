@@ -61,8 +61,8 @@ function init() {
     for(var i=0;i<num_ememies;i++){
         enemies[i]=new createEnemy();
     }
-    var audio = new Audio('NieR_Automata_Boss_Battle_Theme.mp3');
-    audio.play();
+//    var audio = new Audio('NieR_Automata_Boss_Battle_Theme.mp3');
+//    audio.play();
 }
 
 function keyDown(e) {
@@ -142,12 +142,13 @@ function draw() {
 //            time += dt;
 //    }
     //put canvas with white color
-    //ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
     //put an image over other
     //ctx.globalCompositeOperation = 'source-over';
     //draw a rect in position 0,0 with canvas with and height
-    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
      //ctx.fillRect(0, 0, 100,100);
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';   
     /**
      * drawing and animation
      **/
