@@ -6,6 +6,7 @@ var ctx = canvas.getContext('2d');
 var down = false;
 var animationImg = [];
 var startTime;
+var startScore;
 var width, height;
 var mouse;
 var fps = 25;
@@ -14,15 +15,17 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
-var num_ememies=5;
+var num_ememies=10;
 var enemies=[];
 var state=0;
 var score=0;
 var lives=3;
+var first_time=0;
 if(localStorage.getItem("DashGame")==null){
     localStorage.setItem("DashGame",score);
 }
 
+var visible=true;
 /**
 *  Utils
 **/
@@ -98,11 +101,44 @@ function draw() {
     
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
+    
    if(state==1){
+       first_time++;
     var dt = 1E-3 * (new Date().getTime() - startTime);
     startTime = new Date().getTime();
-    time += dt;
-   
+    time+=dt;   
+      
+       
+    
+       if(first_time==1){
+           //startScore=new Date().getTime();
+           time=0;
+       }
+       //GenerateNumberEnemies(time);
+       
+//       if(!visible){   
+//            console.log("Escondido!");
+//            score+=Math.round(new Date().getTime() - startScore);
+//        }
+//       else{
+//            console.log("Visivel!");
+//            startScore=new Date().getTime();
+//       }
+//    if(isHidden()!=false){   
+//        console.log("Escondido!");
+//       
+//    }
+//       else{
+//            console.log("Visivel!");
+//            time += dt;
+//       }
+//    if (typeof document.webkitHidden !== "undefined") {
+//        console.log("Escondido!");
+//    }
+//    else{
+//           console.log("Visivel!");
+//            time += dt;
+//    }
     //put canvas with white color
     //ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     //put an image over other
@@ -179,48 +215,57 @@ function draw() {
     MoveEnemies();
    }
     else{Menu();}
+     //debug
+//     ctx.fillStyle = "black";
+//    ctx.font = "bold 16px Arial";
+//    ctx.fillText("tempo: "+time, 0.9*canvas.width, 0.9*canvas.height);
+//    ctx.fillText("dt: "+dt, 0.8*canvas.width, 0.9*canvas.height);
     requestAnimationFrame(draw);
+    
 }
 
 function Menu(){
+    first_time=0;
     var rectx,recty,rect_width,rect_height;
     var best_score=localStorage.getItem("DashGame");
     rectx=0.5*canvas.width;
     recty=0.5*canvas.height;
     rect_width=0.2*canvas.width;
     rect_height=0.1*canvas.height;
-    ctx.rect(rectx-rect_width/2, recty-rect_height/2, rect_width,rect_height);
-    ctx.fill();
-    ctx.fillStyle = "white";
-    var text_size=rect_width*0.1;
-    ctx.font = "bold 16px Arial";
-    ctx.fillText("Touch Here to play", rectx-rect_width/2+rect_width/4, recty-rect_height/2+rect_height/2);
-   console.log("rectx: "+rectx);
-        console.log("recty: "+recty);
-        console.log("rectwidth: "+rect_width);
-        console.log("rect height: "+rect_height);
-        console.log("x: "+mouse[1]);
-        console.log("y: "+mouse[0]);
+    //ctx.strokeStyle("black");
+  ctx.rect(rectx-rect_width/2, recty-rect_height/2, rect_width,rect_height);
+    ctx.stroke();
+    ctx.fillStyle = "black";
+    var text_size=Math.min(canvas.width,canvas.height)*0.025;
+    ctx.font = "bold "+text_size+"px Arial";
+    ctx.fillText("Touch Here to play", rectx-rect_width/2+rect_width/100, recty-rect_height/2+rect_height/2);
+//   console.log("rectx: "+rectx);
+//        console.log("recty: "+recty);
+//        console.log("rectwidth: "+rect_width);
+//        console.log("rect height: "+rect_height);
+//        console.log("x: "+mouse[1]);
+//        console.log("y: "+mouse[0]);
 //    if(down)
 //        console.log("down=true");
 //    if( mouse[1]<=rect_width )
 //        console.log("Entrou no quadrado X");
 //    if(mouse[0]>=recty && mouse[0]<=rect_height)
 //        console.log("Entrou no quadrado YY");
-    if(down==true && mouse[1]>=rectx-rect_width/2 && mouse[1]<=rect_width+rectx-rect_width/2 && mouse[0]>=recty-rect_height/2 && mouse[0]<=rect_height+recty-rect_height/2){
+    if( mouse[1]>=rectx-rect_width/2 && mouse[1]<=rect_width+rectx-rect_width/2 && mouse[0]>=recty-rect_height/2 && mouse[0]<=rect_height+recty-rect_height/2){
         state=1;
         lives=3;
         time=0;
         
+        
     }
     ctx.fillStyle = "black";
-    ctx.font = "bold 16px Arial";
+    ctx.font = "bold "+text_size+"px Arial";
     ctx.fillText("Score: "+score, 0.5*canvas.width, 0.65*canvas.height);
        
     ctx.fillText("Best Score: "+best_score, 0.5*canvas.width, 0.70*canvas.height);
-    ctx.fillStyle = "black";
-     ctx.font = "bold 16px Arial";
-    ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0]+ " mousedown: "+ down, mouse[1], mouse[0]);
+    //ctx.fillStyle = "black";
+     //ctx.font = "bold 16px Arial";
+    //ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0]+ " mousedown: "+ down, mouse[1], mouse[0]);
 }
 
 
@@ -248,13 +293,18 @@ function MoveEnemies(){
                lives--;
                if(lives==0){
                    //end game
+                   clearEnemies();
+                   mouse[0]=0.9*canvas.height;
                    state=0;
                    score=Math.round(time);
+                   //startTime=0;
+                   //score+=Math.round(new Date().getTime() - startScore);
                    var best_score=localStorage.getItem("DashGame");
                    if (score>best_score){
                        best_score=score;
                        localStorage.setItem("DashGame",best_score);
                    }
+                   time=0;
                }
            }
            else{}//PrintCanvas("0");}
@@ -335,6 +385,31 @@ function DetectColision(enemy){
         }
     
 }
+function clearEnemies(){
+    for(var i=0;i<num_ememies;i++){
+        delete enemies[i];
+        enemies[i]= new createEnemy();
+    }
+}
+
+
+function GenerateNumberEnemies(time){
+    //y = 0,0006x3 - 0,0258x2 + 0,5133x + 1
+    if(time<=30){
+        num_ememies=Math.floor(0.0006*Math.pow(time,3)-0.0258*Math.pow(time,2)+0.5133*time+1)
+    }
+    else{
+        num_ememies=10;
+    }
+     for(var i=0;i<num_ememies;i++){
+        if(enemies[i].active==undefined)
+            enemies[i]=new createEnemy();
+    }
+    
+}
+
+
+
 function PrintCanvas(str){
    var posx=0.9*canvas.width;
     var posy=0.9*canvas.height;
@@ -488,10 +563,80 @@ function fullscreen(){
              el.mozRequestFullScreen();
           }            
 }
+function getHiddenProp(){
+    var prefixes = ['webkit','moz','ms','o'];
+    
+    // if 'hidden' is natively supported just return it
+    if ('hidden' in document) return 'hidden';
+    
+    // otherwise loop over all the known prefixes until we find one
+    for (var i = 0; i < prefixes.length; i++){
+        if ((prefixes[i] + 'Hidden') in document) 
+            return prefixes[i] + 'Hidden';
+    }
+
+    // otherwise it's not supported
+    return null;
+}
+    function visChange() {
+        //var txtFld = document.getElementById('visChangeText');
+
+		
+			if (isHidden()) {
+				//txtFld.value += "Tab Hidden!\n";
+                
+                visible=false;
+                console.log("visible: " +visible);
+                
+                
+            }
+			else {
+				//txtFld.value += "Tab Visible!\n";
+                
+                visible=true;
+                console.log("visible: " +visible);
+                startTime = new Date().getTime();
+            }
+		
+    }
+
+function isHidden() {
+    var prop = getHiddenProp();
+    if (!prop) return false;
+    
+    return document[prop];
+}
+    
+
 /**
 *  Main
 **/
-
-init()
+//window.addEventListener("load", function simpleDemo() {
+//  // use the property name to generate the prefixed event name
+//  var visProp = getHiddenProp();
+//  if (visProp) {
+//    var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
+//    document.addEventListener(evtname, visChange);
+//  }
+////  else {
+////      var txtFld = document.getElementById('visChangeText');
+////      txtFld.value += "PageVisibilityAPI not supported!"
+////  }
+//
+//	function visChange() {
+//		//var txtFld = document.getElementById('visChangeText');
+//
+//		
+//			if (isHidden()) {
+//				visible=false;
+//            }
+//			else {
+//				visible=true;
+//    
+//		   }
+//	}
+//});
+document.addEventListener('visibilitychange', visChange);
+init();
 canvas.addEventListener("click",fullscreen);      
 requestAnimationFrame(draw);
