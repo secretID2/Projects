@@ -253,7 +253,7 @@ function Menu(){
 //        console.log("Entrou no quadrado YY");
     if( mouse[1]>=rectx-rect_width/2 && mouse[1]<=rect_width+rectx-rect_width/2 && mouse[0]>=recty-rect_height/2 && mouse[0]<=rect_height+recty-rect_height/2){
         state=1;
-        lives=3;
+        lives=100;
         time=0;
         
         
