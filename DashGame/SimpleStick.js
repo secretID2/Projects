@@ -15,11 +15,11 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
-var num_ememies=10;
+var num_ememies=7;
 var enemies=[];
 var state=0;
 var score=0;
-var lives=3;
+var lives=100;
 var first_time=0;
 if(localStorage.getItem("DashGame")==null){
     localStorage.setItem("DashGame",score);
