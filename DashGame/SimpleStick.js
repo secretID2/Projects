@@ -15,16 +15,16 @@ var numOfFrames = 9;
 var x=0,y=0,pos=[],positivey=1,positivex=1;
 var size=0.17;
 var finalindex=0;
-var num_ememies=7;
+var num_ememies=5;
 var enemies=[];
 var state=0;
 var score=0;
-var lives=100;
+var lives=100,last_live=lives;
 var first_time=0;
 if(localStorage.getItem("DashGame")==null){
     localStorage.setItem("DashGame",score);
 }
-
+var choose_enemies=1,choose_lives=1;
 var visible=true;
 /**
 *  Utils
@@ -61,8 +61,8 @@ function init() {
     for(var i=0;i<num_ememies;i++){
         enemies[i]=new createEnemy();
     }
-//    var audio = new Audio('NieR_Automata_Boss_Battle_Theme.mp3');
-//    audio.play();
+    //var audio = new Audio('NieR_Automata_Boss_Battle_Theme.mp3');
+    //audio.play();
 }
 
 function keyDown(e) {
@@ -142,13 +142,12 @@ function draw() {
 //            time += dt;
 //    }
     //put canvas with white color
-    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    //ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     //put an image over other
     //ctx.globalCompositeOperation = 'source-over';
     //draw a rect in position 0,0 with canvas with and height
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
      //ctx.fillRect(0, 0, 100,100);
-    ctx.fillStyle = 'rgba(0, 0, 0, 1)';   
     /**
      * drawing and animation
      **/
@@ -256,7 +255,7 @@ function Menu(){
 //        console.log("Entrou no quadrado YY");
     if( mouse[1]>=rectx-rect_width/2 && mouse[1]<=rect_width+rectx-rect_width/2 && mouse[0]>=recty-rect_height/2 && mouse[0]<=rect_height+recty-rect_height/2){
         state=1;
-        lives=100;
+        //lives=100;
         time=0;
         
         
@@ -269,6 +268,33 @@ function Menu(){
     //ctx.fillStyle = "black";
      //ctx.font = "bold 16px Arial";
     //ctx.fillText("x : " + mouse[1] +  " y: " + mouse[0]+ " mousedown: "+ down, mouse[1], mouse[0]);
+    
+    ctx.rect(0.1*rectx,0.1*recty,rect_width,rect_height);
+    ctx.stroke();
+    ctx.fillText("Lives: "+lives, 0.1*rectx, 0.2*recty);
+    if( mouse[1]>=0.1*rectx && mouse[1]<=0.1*rectx+rect_width && mouse[0]>=0.1*recty && mouse[0]<=0.1*recty+rect_height){
+        choose_lives++;
+        choose_lives%=4;
+        lives=5*Math.pow(choose_lives,2)-65*choose_lives+160;
+        mouse[0]=0.9*canvas.height;
+        last_live=lives;
+        console.log(choose_lives);
+        console.log(lives);
+        
+    }
+    ctx.rect(0.1*rectx,0.4*recty,rect_width,rect_height);
+    ctx.stroke();
+    
+    ctx.fillText("Number of enemies: "+num_ememies, 0.1*rectx, 0.5*recty);
+    if( mouse[1]>=0.1*rectx && mouse[1]<=0.1*rectx+rect_width && mouse[0]>=0.4*recty && mouse[0]<=0.4*recty+rect_height){
+        choose_enemies++;
+        choose_enemies%=4;
+        num_ememies=-0.5*Math.pow(choose_enemies,2)+4.5*choose_enemies+1;
+        clearEnemies();
+        mouse[0]=0.9*canvas.height;
+    }
+    
+    
 }
 
 
@@ -300,6 +326,7 @@ function MoveEnemies(){
                    mouse[0]=0.9*canvas.height;
                    state=0;
                    score=Math.round(time);
+                   lives=last_live;
                    //startTime=0;
                    //score+=Math.round(new Date().getTime() - startScore);
                    var best_score=localStorage.getItem("DashGame");
