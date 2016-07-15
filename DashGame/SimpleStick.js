@@ -295,6 +295,17 @@ function Menu(){
     }
     
     
+    
+     ctx.rect(0.1*rectx,0.7*recty,rect_width,rect_height);
+    ctx.stroke();
+    
+    ctx.fillText("Reset best Score ", 0.1*rectx, 0.8*recty);
+    if( mouse[1]>=0.1*rectx && mouse[1]<=0.1*rectx+rect_width && mouse[0]>=0.7*recty && mouse[0]<=0.7*recty+rect_height){
+        localStorage.setItem("DashGame",0);
+        mouse[0]=0.9*canvas.height;
+    }
+    
+    
 }
 
 
