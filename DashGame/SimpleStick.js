@@ -108,14 +108,16 @@ function draw() {
        first_time++;
     var dt = 1E-3 * (new Date().getTime() - startTime);
     startTime = new Date().getTime();
-    time+=dt;   
-      
-       
+    time+=dt; 
     
        if(first_time==1){
            //startScore=new Date().getTime();
            time=0;
        }
+       var text_size=Math.min(canvas.width,canvas.height)*0.025;
+        ctx.font = "bold "+text_size+"px Arial";  
+      //score=Math.round(time);
+       ctx.fillText("Score: "+Math.round(time),0.9*canvas.width,0.1*canvas.height);
        //GenerateNumberEnemies(time);
        
 //       if(!visible){   
