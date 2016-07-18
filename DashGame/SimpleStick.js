@@ -119,7 +119,7 @@ function draw() {
        var text_size=Math.min(canvas.width,canvas.height)*0.025;
         ctx.font = "bold "+text_size+"px Arial";  
       //score=Math.round(time);
-       ctx.fillStyle("black");
+       ctx.fillStyle="black";
        ctx.fillText("Score: "+Math.round(time),0.9*canvas.width,0.1*canvas.height);
        //GenerateNumberEnemies(time);
        
