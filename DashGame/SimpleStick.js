@@ -103,7 +103,7 @@ function draw() {
     
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
-    
+   
    if(state==1){
        first_time++;
     var dt = 1E-3 * (new Date().getTime() - startTime);
@@ -114,6 +114,8 @@ function draw() {
            //startScore=new Date().getTime();
            time=0;
        }
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+     ctx.fillRect(0, 0, canvas.width, canvas.height);
        var text_size=Math.min(canvas.width,canvas.height)*0.025;
         ctx.font = "bold "+text_size+"px Arial";  
       //score=Math.round(time);
@@ -566,6 +568,7 @@ function Follow(dt){
 }
 function drawRectangle(myRectangle, context) {
         context.beginPath();
+        context.fillStyle = 'rgba(0, 0, 0, 1)';
         context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
         //context.fillStyle = '#8ED6FF';
         context.fill();
