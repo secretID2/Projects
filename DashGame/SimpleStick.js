@@ -103,7 +103,8 @@ function draw() {
     
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
-   
+      ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+     ctx.fillRect(0, 0, canvas.width, canvas.height);
    if(state==1){
        first_time++;
     var dt = 1E-3 * (new Date().getTime() - startTime);
@@ -114,8 +115,7 @@ function draw() {
            //startScore=new Date().getTime();
            time=0;
        }
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-     ctx.fillRect(0, 0, canvas.width, canvas.height);
+     
        var text_size=Math.min(canvas.width,canvas.height)*0.025;
         ctx.font = "bold "+text_size+"px Arial";  
       //score=Math.round(time);
