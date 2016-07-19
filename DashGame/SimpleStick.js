@@ -61,8 +61,8 @@ function init() {
     for(var i=0;i<num_ememies;i++){
         enemies[i]=new createEnemy();
     }
-    //var audio = new Audio('NieR_Automata_Boss_Battle_Theme.mp3');
-    //audio.play();
+    var audio = new Audio('NieR_Automata_Boss_Battle_Theme.mp3');
+    audio.play();
 }
 
 function keyDown(e) {
