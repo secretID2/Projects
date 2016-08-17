@@ -22,6 +22,7 @@ var swipe_left=false;
 var b1;
 var ani;
 var aniSeq;
+var enemy;
 /**
 *  Utils
 **/
@@ -44,8 +45,10 @@ function init() {
     get_all_animations();
     
     
-//    ani=new animation(animationLib[1],2,ctx);
-//    animationV.push(ani);
+    ani=new animation(animationLib[1],25,ctx);
+    animationImg=[];
+    animationImg.push(ani);
+    animationImg.push(ani);
     ani=new animation(animationLib[0],25,ctx);
     animationV.push(ani);
     ani=new animation(animationLib[3],25,ctx);
@@ -77,8 +80,19 @@ function init() {
     moveVec.push(move0);
     move0=new move1([700,100],[700,100],(1/animationV[2].fps)*animationV[2].sequence.length);
     moveVec.push(move0);
+    move0=new move1([750,100],[800,100],2);
+    var moveE=[];
+    moveE.push(move0);
+    move0=new move1([800,100],[750,100],2);
+    moveE.push(move0);
     aniSeq=new sequence(animationV,timeTable,sizeVec,moveVec);
-    
+    var sizeE=[];
+    sizeE.push([200,200]);
+    sizeE.push([200,200]);
+    var timeE=[];
+    timeE.push(2);
+    timeE.push(2);
+     enemy=new sequence(animationImg,timeE,sizeE,moveE);
     startTime = new Date().getTime();
     width = canvas.width;
     height = canvas.height;
@@ -412,6 +426,7 @@ function draw() {
 //    y=pos[1];
     //ani.draw(100,100);
     aniSeq.play();
+    enemy.play();
     
     /**
      * drawing and animation
