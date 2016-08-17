@@ -1,0 +1,1 @@
+idle;idlev;attack1;run
