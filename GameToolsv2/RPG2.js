@@ -56,7 +56,7 @@ function init() {
 //    timeTable.push(1);
 //    timeTable.push(1);
     timeTable.push(2);
-    timeTable.push(1/*(1/animationV[1].fps)*animationV[1].sequence.length*/);
+    timeTable.push((1/animationV[1].fps)*animationV[1].sequence.length);
     timeTable.push(((1/animationV[2].fps)*animationV[2].sequence.length));
     var sizeVec=[];
     var size=[];
@@ -73,9 +73,9 @@ function init() {
     
     var move0=new move1([100,100],[100,100],2); 
     moveVec.push(move0);
-    move0=new move1([100,100],[700,100],1);
+    move0=new move1([100,100],[700,100],(1/animationV[1].fps)*animationV[1].sequence.length);
     moveVec.push(move0);
-    move0=new move1([700,100],[700,100],(1/animationV[1].fps)*animationV[2].sequence.length);
+    move0=new move1([700,100],[700,100],(1/animationV[2].fps)*animationV[2].sequence.length);
     moveVec.push(move0);
     aniSeq=new sequence(animationV,timeTable,sizeVec,moveVec);
     
