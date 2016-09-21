@@ -1,35 +1,28 @@
 
 
-		// Put event listeners into place
+// Put event listeners into place
 		
-			// Grab elements, create settings, etc.
-			var canvas=document.getElementById("canvas"), context=canvas.getContext("2d"),video = document.getElementById("video"),videoObj = { "video": true },errBack = function(error) {
-					console.log("Video capture error: ", error.code); 
-				};
-            var color = document.getElementById('color');
+// Grab elements, create settings, etc.
+var canvas=document.getElementById("canvas"), context=canvas.getContext("2d");
+
+//video vars
+var video = document.getElementById("video");
+var videoObj = { "video": true };
+var handleVideo = function handleVideo(stream) { video.src = window.URL.createObjectURL(stream);}
+var errBack = function(error) { console.log("Video capture error: ", error.code);};
+
+
+var color = document.getElementById('color');
 var canvas2=document.getElementById("canvas2"), context2=canvas2.getContext("2d")
             
-            function init (){
-                
+function init (){
+    // Video setup : Put video listeners into place
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 
-                    // Put video listeners into place
-                    if(navigator.getUserMedia) { // Standard
-                        navigator.getUserMedia(videoObj, function(stream) {
-                            video.src = stream;
-                            video.play();
-                        }, errBack);
-                    } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-                        navigator.webkitGetUserMedia(videoObj, function(stream){
-                            video.src = window.webkitURL.createObjectURL(stream);
-                            video.play();
-                        }, errBack);
-                    } else if(navigator.mozGetUserMedia) { // WebKit-prefixed
-                        navigator.mozGetUserMedia(videoObj, function(stream){
-                            video.src = window.URL.createObjectURL(stream);
-                            video.play();
-                        }, errBack);
-                    }
-                }
+    if (navigator.getUserMedia) {       
+        navigator.getUserMedia({video: true}, handleVideo, errBack);
+    }
+}
 
 
 function invert_color(){
