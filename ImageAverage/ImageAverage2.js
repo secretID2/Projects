@@ -11,6 +11,7 @@ var image_array=[];
 
 
 function Process(){
+    changeCanvasSize();
     var dataImages = [];
     for(var i = 1; i < canvas_index; i++) {
         var s= "c" + i;
@@ -88,4 +89,29 @@ function drop(e) {
 }
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function changeCanvasSize(){
+    var str="c";
+    var i=1;
+    var maxheight=0,maxwidth=0;
+    var maincanvas,canvas_img;
+    maincanvas=document.getElementById("canvas");
+    for(i=1;i<canvas_index;i++,str="c"){
+        str=str+i;
+        canvas_img=document.getElementById(str);
+        if(canvas_img.width>maxwidth){
+            maxwidth=canvas_img.width;
+        }
+        if(canvas_img.height>maxheight){
+            maxheight=canvas_img.height;
+        }
+        
+        
+    }
+    
+    maincanvas.width=maxwidth;
+    maincanvas.height=maxheight;
+    
+    
 }
