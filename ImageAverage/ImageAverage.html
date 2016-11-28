@@ -32,26 +32,29 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script></head>
-    <style>
-        #div1 {width:350px;height:70px;padding:10px;border:1px solid #aaaaaa;}
-        #imageLoader {
-  position:absolute;left: 10px;
-    top: 10px;width:380px;height:90px;
-}
-    </style>
-    <div id="div1" ><input type="file" id="imageLoader" name="imageLoader" /></div>
+<body>
+        <style>
+            #div1 {width:350px;height:70px;padding:10px;border:1px solid #aaaaaa;}
+            #imageLoader {
+      position:absolute;left: 10px;
+        top: 10px;width:380px;height:90px;
+    }
+        </style>
+        <div id="div1" ><input type="file" id="imageLoader" name="imageLoader" /></div>
 
-<label>Image File:</label><br/>
-<!--<input type="file" id="imageLoader" name="imageLoader" />-->
-    <div id="Page" class="container">
-<!--<canvas id="imageCanvas" draggable="true" ondragstart="drag(event)"></canvas>-->
-    </div>    
-    <canvas id="canvas" width="700" height="700"></canvas>
-    <script>
-        var c = document.getElementById("canvas");
-        var ctx = c.getContext("2d");
-        ctx.font = "20px Georgia";
-        ctx.fillText("Click Here to make the averege of all the droped Images!", 10, 50);
-    </script>
-    <script src="ImageAverage2.js"></script>
+    <label>Image File:</label><br/>
+    <!--<input type="file" id="imageLoader" name="imageLoader" />-->
+        <div id="Page" class="container">
+    <!--<canvas id="imageCanvas" draggable="true" ondragstart="drag(event)"></canvas>-->
+        </div>    
+        <canvas id="canvas" width="700" height="700"></canvas>
+        <script>
+            var c = document.getElementById("canvas");
+            var ctx = c.getContext("2d");
+            ctx.font = "20px Georgia";
+            ctx.fillText("Click Here to make the averege of all the droped Images!", 10, 50);
+        </script>
+        <script src="ImageAverage2.js"></script>
+        <div id="after_canvas"></div>
+</body>
 </html>

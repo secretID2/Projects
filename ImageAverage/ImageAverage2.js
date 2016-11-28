@@ -40,10 +40,15 @@ function Process(){
     image_averege.height=imgdata.height;
     context = image_averege.getContext('2d');
     context.putImageData(imgdata, 0, 0);
+    var ss="download";
+    $("#after_canvas").append("<a id="+ss+"> Click to Download image</a>");
+    document.getElementById(ss).addEventListener('click',function(){downloadCanvas(this,"canvas","canvas")},false);
+    
 }
 
 function handleImage(e){
     str="c"+canvas_index;
+    var ds="d"+canvas_index;
     $("#Page").append("<canvas id="+str+"></canvas>");
     //$("#Page").append("<button id="+str+">Ola</button>");
     //$("#"+str+"").attr("class","btn btn-default btn-lg");
@@ -62,6 +67,8 @@ function handleImage(e){
         image_index++;
     }
     reader.readAsDataURL(e.target.files[0]);
+    $("#Page").append("<a id="+ds+"> Click to Download image</a>");
+    document.getElementById(ds).addEventListener('click',function(){downloadCanvas(this,str,str)},false);
     canvas_index++;
 }
 
@@ -114,4 +121,9 @@ function changeCanvasSize(){
     maincanvas.height=maxheight;
     
     
+}
+
+function downloadCanvas(link,canvasId,filename){
+    link.href=document.getElementById(canvasId).toDataURL();
+    link.download=filename;
 }
