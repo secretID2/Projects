@@ -48,7 +48,7 @@ function QRgenerate(){
 	name=getName();	
 	price= getPrice();
 	var i=0;
-	var urlStr="http://secretid2.github.io/SecretID_Projects_007/Local_store/GeneratedStore.html?";
+	var urlStr="http://secretid2.github.io/Projects/Local_store/GeneratedStore.html?";
 	while (i<price.length){
 		urlStr+= name[i]+","+price[i]+";";
 		i++;
