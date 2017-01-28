@@ -295,7 +295,7 @@ function Menu(){
         choose_enemies++;
         choose_enemies%=20;
         //num_ememies=-0.5*Math.pow(choose_enemies,2)+4.5*choose_enemies+1;
-	    
+	 num_ememies=choose_enemies;   
         clearEnemies();
         mouse[0]=0.9*canvas.height;
     }
