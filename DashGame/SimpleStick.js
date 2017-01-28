@@ -293,8 +293,9 @@ function Menu(){
     ctx.fillText("Number of enemies: "+num_ememies, 0.1*rectx, 0.5*recty);
     if( mouse[1]>=0.1*rectx && mouse[1]<=0.1*rectx+rect_width && mouse[0]>=0.4*recty && mouse[0]<=0.4*recty+rect_height){
         choose_enemies++;
-        choose_enemies%=4;
-        num_ememies=-0.5*Math.pow(choose_enemies,2)+4.5*choose_enemies+1;
+        choose_enemies%=20;
+        //num_ememies=-0.5*Math.pow(choose_enemies,2)+4.5*choose_enemies+1;
+	    
         clearEnemies();
         mouse[0]=0.9*canvas.height;
     }
