@@ -42,7 +42,7 @@ function loadImage(src) {
 function init() {
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mouseup", mouseUp, false);
-	canvas.addEventListener("touchmove", touchMove, false);
+	canvas.addEventListener("touchmove", touchMove);
     canvas.addEventListener("touchmove", mouseMove,false);
     document.addEventListener("keydown", keyDown, false);
     canvas.width=window.innerWidth;
