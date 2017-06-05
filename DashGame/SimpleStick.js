@@ -101,6 +101,7 @@ function mouseMove(e) {
 		mouse[0]=e.clientY;
 		mouse[1]=e.clientX;
 	}
+	console.log(mouse[0]+"  "+mouse[1]);
 }
 
 function draw() {
