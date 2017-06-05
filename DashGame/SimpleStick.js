@@ -97,12 +97,12 @@ function mouseMove(e) {
         // return;
     // mouse[0] = my;
     // mouse[1] = mx;
-	console.log(down);
-	if(down){
+	// console.log(down);
+	// if(down){
 		mouse[0]=e.clientY;
 		mouse[1]=e.clientX;
 		//console.log(e.clientY+"  "+mouse[1]);
-	}
+	//}
 	
 }
 
