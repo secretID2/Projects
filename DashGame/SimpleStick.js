@@ -42,7 +42,7 @@ function loadImage(src) {
 function init() {
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mouseup", mouseUp, false);
-    canvas.addEventListener("mousemove", mouseMove, false);
+    canvas.addEventListener("mousemove", mouseMove);
     document.addEventListener("keydown", keyDown, false);
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
@@ -101,7 +101,7 @@ function mouseMove(e) {
 		mouse[0]=e.clientY;
 		mouse[1]=e.clientX;
 	//}
-	console.log(mouse[0]+"  "+mouse[1]);
+	console.log(e.clientY+"  "+mouse[1]);
 }
 
 function draw() {
