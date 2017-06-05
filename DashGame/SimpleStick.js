@@ -92,6 +92,8 @@ function mouseUp() {
 }
 
 function touchMove(e) {
+	
+	
     var rect = canvas.getBoundingClientRect();
     var mx = (e.touches[0].clientX - rect.left), my = (e.touches[0].clientY - rect.top);
     if (!down || mx == mouse[0] && my == mouse[1])
