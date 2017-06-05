@@ -42,7 +42,8 @@ function loadImage(src) {
 function init() {
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mouseup", mouseUp, false);
-    canvas.addEventListener("touchmove", mouseMove);
+	canvas.addEventListener("touchmove", touchMove, false);
+    canvas.addEventListener("touchmove", mouseMove,false);
     document.addEventListener("keydown", keyDown, false);
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
@@ -90,20 +91,25 @@ function mouseUp() {
     down = false;
 }
 
+function touchMove(e) {
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.touches[0].clientX - rect.left), my = (e.touches[0].clientY - rect.top);
+    if (!down || mx == mouse[0] && my == mouse[1])
+        return;
+    mouse[0] = my;
+    mouse[1] = mx;
+}
+
+
 function mouseMove(e) {
-    // var rect = canvas.getBoundingClientRect();
-    // var mx = (e.clientX - rect.left), my = (e.clientY - rect.top);
-    // if (!down || mx == mouse[0] && my == mouse[1])
-        // return;
-    // mouse[0] = my;
-    // mouse[1] = mx;
-	 //console.log(down);
-	 if(down){
-		mouse[0]=e.clientY;
-		mouse[1]=e.clientX;
-		
-	}
-	console.log(e.screenX+"  "+mouse[1]);
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left), my = (e.clientY - rect.top);
+    if (!down || mx == mouse[0] && my == mouse[1])
+        return;
+    mouse[0] = my;
+    mouse[1] = mx;
+	 
+	 
 }
 
 function draw() {
