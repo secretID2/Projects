@@ -98,6 +98,7 @@ function touchMove(e) {
         return;
     mouse[0] = my;
     mouse[1] = mx;
+	console.log("ola:"+ " "+e.touches[0].clientX);
 }
 
 
