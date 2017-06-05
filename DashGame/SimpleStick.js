@@ -43,7 +43,7 @@ function init() {
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mouseup", mouseUp, false);
 	canvas.addEventListener("touchmove", touchMove,false);
-    // canvas.addEventListener("mousemove", mouseMove,false);
+    canvas.addEventListener("mousemove", mouseMove,false);
     document.addEventListener("keydown", keyDown, false);
     canvas.width=window.innerWidth;
     canvas.height=window.innerHeight;
