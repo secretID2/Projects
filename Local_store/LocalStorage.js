@@ -8,6 +8,9 @@ window.onload = function init() {
 	clearButton.addEventListener("click", ClearStorage,false);
 	var qrButton=document.getElementById("qr");
 	qrButton.addEventListener("click", QRgenerate,false);
+    
+    
+    ShowCurrentStore();
 	
 }
 
@@ -26,21 +29,75 @@ function CreateStorage(){
 	 //document.cookie=name+","+price+";";
 	// document.cookie = "username=John Doe";
 	//var name1= document.cookie.split(",");
-	// alert(document.cookie);
+	 //alert(price+"   "+name);
+	if(price=="" || name==""){
+        alert("You need to fill the form! to submit");
+    }else{
+        
+        //localStorage.clear();
+	   var str="Store"+i;
+	   //alert(str);
 	
-	
-	//localStorage.clear();
-	var str="Store"+i;
-	//alert(str);
-	
-	localStorage.setItem(str,name+","+price);
-	//alert(localStorage.getItem(str));
-	i++;
-	
+        localStorage.setItem(str,name+","+price);
+	   //alert(localStorage.getItem(str));
+        i++;
+    
+        //inserir novo produto na lista de items inseridos
+        createItemList(name,price);
+        
+    }
 }
+
+function createItemList(name,price){
+    
+    $("#item_list").append("<option id=\"item\">"+name+" - "+price+"</option>");
+}
+
+function clearItemList(){
+    $("#item_list").empty();
+}
+
+function ShowCurrentStore(){
+    var name=[];
+    var price=[];
+    name=getName();
+    price=getPrice();
+    
+    for(var i=0;i<name.length;i++){
+        createItemList(name[i],price[i]);
+    }
+}
+
+function getName(){
+	var i=0;
+	var str="Store"+i;
+	var str_aux;
+	var localname=[];
+	for (i=0;localStorage.getItem(str)!=null;i++,str="Store"+i){
+		str_aux=localStorage.getItem(str).split(",");
+		localname.push(str_aux[0]);
+		//alert(str);
+	}
+	return localname;
+}
+function getPrice(){
+	var i=0;
+	var str="Store"+i;
+	var str_aux;
+	var localprice=[];
+	for (i=0;localStorage.getItem(str)!=null;i++,str="Store"+i){
+		str_aux=localStorage.getItem(str).split(",");
+		localprice.push(str_aux[1]);
+		//alert(str);
+	}
+	return localprice;
+}
+
+
 
 function ClearStorage(){
 	localStorage.clear();
+    clearItemList();
 }
 
 function QRgenerate(){
