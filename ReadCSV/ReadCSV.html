@@ -22,7 +22,7 @@ Read CSV
         <h2>Put CSV  or txt File<br></h2>
         </div>
         
-        <div id="div1" onmouseover="changeColor()" onmouseout="mouseOut()"><input type="file" id="fileInput" name="fileInput" /></div>
+        <div id="div1"  ondragleave="mouseOut()" ondragover="changeColor()" ondragseout="mouseOut()"><input type="file" id="fileInput" name="fileInput" /></div>
         <p id="display"></p>
         <div id="training_table"></div>
         <script>
