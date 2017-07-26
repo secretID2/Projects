@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Read CSV
+</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="ReadCSV.js"></script>    
+</head>
+
+<body>
+ <style>
+            #div1 {width:380px;height:100px;padding:10px;border:5px solid #aaaaaa;borderColor:black;}
+            #fileInput {
+                        position:absolute;left: 10px;
+                        top: 70px;width:380px;height:90px;
+            }
+        </style>
+        <div>
+        <h2>Put CSV  or txt File<br></h2>
+        </div>
+        
+        <div id="div1" onmouseover="changeColor()" onmouseout="mouseOut()"><input type="file" id="fileInput" name="fileInput" /></div>
+        <p id="display"></p>
+        <div id="training_table"></div>
+        <script>
+            function changeColor(){document.getElementById("div1").style.borderColor="green";}
+            function mouseOut(){document.getElementById("div1").style.borderColor="black";}
+    </script>
+    
+        
+</body>
+
+
+
+
+</html>
