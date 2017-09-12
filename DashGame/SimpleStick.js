@@ -119,8 +119,8 @@ function mouseMove(e) {
 
 function draw() {
     
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
+    //canvas.width=window.innerWidth;
+    //canvas.height=window.innerHeight;
       ctx.fillStyle = 'rgba(255, 255, 255, 1)';
      ctx.fillRect(0, 0, canvas.width, canvas.height);
    if(state==1){
