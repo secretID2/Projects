@@ -1,0 +1,46 @@
+
+<html>
+    <head>
+        <title>
+            CSS Fun
+        </title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<script src="ReadCSV.js"></script>-->    
+        <link rel="stylesheet" href="/css/mycss">
+    </head>
+    
+    <body>
+       
+        <div id="box2" class="Box2"><img src="images/pic_mountain.jpg" style="width:100%;height:100%"></div>
+        <div  class="Box1">
+        <p>djshfciosjhodcsjhdvcosijhdvcosjhvdcosjhvudposdvjkiosijv
+        dskvcjsdkovjhosdjhvodsvhfuodjhvfodjhvfiodjhfv
+        vdfhvoudjhufodjhufvodhufvodjhufvodhufvdo
+        vdivjouodjhufvojnfdvhojvhnfodjhvnodjhufviodjhvudohjfvdofbvnhjdfeddddddddddddddd ddddddddddddddddddddddddddddddddddddddddd
+        ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsf</p>
+        </div>
+        <button class="moving" id="b1" onclick="hide()">Hi!</button>
+        <script>
+            var b=document.getElementById('b1');
+            var interval=setInterval(action,10);
+            var t=0;
+            function action(){
+                b.style.left=500+Math.cos(t)*100+'px';
+                t+=0.1;
+            }
+            //requestAnimationFrame(action);
+            function hide(){
+                var box2=document.getElementById("box2");
+                if(box2.style.visibility=="hidden"){
+                    box2.style.visibility="visible";
+                }
+                else{
+                    box2.style.visibility="hidden";
+                }
+            }
+            
+        </script>
+    </body>
+</html>
