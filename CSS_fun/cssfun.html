@@ -1,0 +1,90 @@
+
+<html>
+    <head>
+        <title>
+            CSS Fun
+        </title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<script src="ReadCSV.js"></script>-->    
+    </head>
+    <style>
+        html, body, #fullheight {
+            min-height: 100% !important;
+            height: 100%;
+            width:100%;
+        }
+        #fullheight {
+            width: 20%;
+            background: blue;
+        }
+        div.FullSquare{
+            width: 100%;
+            height: 20%;
+            background-color: red;
+        
+
+        }
+        div.Box1 {
+            background-color: lightgrey;
+            width: 100%;
+            border: 25px solid green;
+            padding: 0px;
+            margin: 0px;
+        }
+        div.Box2{
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,0,0,0.3);
+        }
+        p{
+           width: 100%; 
+        }
+        button.moving{
+            position:absolute;
+            width:200px;
+            height: 200px;
+            background-color: rgba(25,50,100,0.5);
+            border: 3px; 
+            
+            top:500px;
+        }
+    
+    
+    </style>    
+    <body>
+        <!--<div id=fullheight>
+            Lorem Ipsum        
+        </div>-->
+        <div id="box2" class="Box2"></div>
+        <div  class="Box1">
+        <p>djshfciosjhodcsjhdvcosijhdvcosjhvdcosjhvudposdvjkiosijv
+        dskvcjsdkovjhosdjhvodsvhfuodjhvfodjhvfiodjhfv
+        vdfhvoudjhufodjhufvodhufvodjhufvodhufvdo
+        vdivjouodjhufvojnfdvhojvhnfodjhvnodjhufviodjhvudohjfvdofbvnhjdfeddddddddddddddd ddddddddddddddddddddddddddddddddddddddddd
+        ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddsf</p>
+        </div>
+        <button class="moving" id="b1" onclick="hide()">Hi!</button>
+        <script>
+            var b=document.getElementById('b1');
+            var interval=setInterval(action,300);
+            var t=0;
+            function action(){
+                b.style.left=500+Math.cos(t)*300+'px';
+                t++;
+            }
+            function hide(){
+                var box2=document.getElementById("box2");
+                if(box2.style.visibility=="hidden"){
+                    box2.style.visibility="visible";
+                }
+                else{
+                    box2.style.visibility="hidden";
+                }
+            }
+            
+        </script>
+    </body>
+</html>

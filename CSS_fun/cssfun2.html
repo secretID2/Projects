@@ -1,0 +1,106 @@
+
+<html>
+    <head>
+        <title>
+            CSS Fun
+        </title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!--<script src="ReadCSV.js"></script>-->    
+    </head>
+    <style>
+        html, body, #fullheight {
+            min-height: 100% !important;
+            height: 100%;
+            width:100%;
+        }
+        #fullheight {
+            width: 20%;
+            background: blue;
+        }
+        #fileInput{
+            height: 90%;
+            width:100%;
+            
+            visibility: collapse;
+        }
+        div.FullSquare{
+            width: 100%;
+            height: 20%;
+            background-color: red;
+        
+
+        }
+        div.Box1 {
+            background-color: lightgrey;
+            width: 100%;
+            border: 25px solid green;
+            padding: 0px;
+            margin: 0px;
+        }
+        div.Box2{
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            
+        }
+        p{
+           width: 100%; 
+        }
+        button.moving{
+            position:absolute;
+            width:200px;
+            height: 200px;
+            background-color: rgba(25,50,100,0.5);
+            border: 3px; 
+            
+            top:500px;
+        }
+        text.moving{
+            position: relative;
+            font-size: 500%;
+            color:white;
+            top:70%;left:40%;
+            visibility:collapse;
+
+        }
+    
+    
+    </style>    
+    <body>
+        <!--<div id=fullheight>
+            Lorem Ipsum        
+        </div>-->
+        <div id="box2" class="Box2" ondragover="show()" onclick="show()" ondragleave="hide()">
+            <h2 id="firstText">Click or drag files!</h2>
+            <!--<input type="file"  id="fileInput" name="fileInput" />-->
+        </div>
+        <text class="moving" ondragover="show()" id="mt">Drop Files Here!</text>
+        
+        <script>
+            var text=document.getElementById('mt');
+            var interval=setInterval(action,20);
+            var t=0;
+            function action(){
+                text.style.top=500+Math.cos(t)*100+'px';
+                t+=0.1;
+            }
+            //requestAnimationFrame(action);
+            function show(){
+                var box=document.getElementById("box2");
+                document.getElementById("firstText").style.visibility="collapse";
+               // document.getElementById("fileInput").style.visibility="visible";
+                box.style.backgroundColor="rgba(0,100,200,0.3)";
+                text.style.visibility="visible";
+            }
+            function hide(){
+                var box=document.getElementById("box2");
+                box.style.backgroundColor="rgba(255,255,255,1)";
+                text.style.visibility="collapse";
+                //document.getElementById("fileInput").style.visibility="collapse";
+                document.getElementById("firstText").style.visibility="visible";
+            }
+        </script>
+    </body>
+</html>
