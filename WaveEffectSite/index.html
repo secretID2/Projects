@@ -7,27 +7,28 @@
         <link rel="stylesheet" href="/css/mycss2">
     </head>
     
-    <body>
+    <body >
         <!--<div id=fullheight>
             Lorem Ipsum        
         </div>-->
-        <div id="box2" class="#fullheight"><canvas id="canvas" style="width:100%;height:100%"></canvas></div>
+        <div ><canvas id="canvas" style="width:100%;height=100%;"></canvas></div>
         <script>
           
                 var canvas = document.getElementById('canvas');
                 var context = canvas.getContext('2d');
 
-                window.onload=make_base();
+               make_base();
 
                 function make_base()
                 {
                   base_image = new Image();
                   base_image.src = 'images/pic_mountain.jpg';
                   base_image.onload = function(){
-                    context.drawImage(base_image, base_image.width, base_image.height);
+                    context.drawImage(base_image, 0, 20);
                   }
                 }
             
         </script>
+        
     </body>
 </html>
