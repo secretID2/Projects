@@ -13,21 +13,21 @@
         </div>-->
         <div id="box2" class="#fullheight"><canvas id="canvas" style="width:100%;height:100%"></canvas></div>
         <script>
-            window.onload(){
-            var canvas = document.getElementById('canvas'),
-             context = canvas.getContext('2d');
-            
-            make_base();
+          
+                var canvas = document.getElementById('canvas');
+                 context = canvas.getContext('2d');
 
-            function make_base()
-            {
-              base_image = new Image();
-              base_image.src = 'images/pic_mountain.jpg';
-              base_image.onload = function(){
-                context.drawImage(base_image, base_image.width, base_image.height);
-              }
-            }
-            }
+                make_base();
+
+                function make_base()
+                {
+                  base_image = new Image();
+                  base_image.src = 'images/pic_mountain.jpg';
+                  base_image.onload = function(){
+                    context.drawImage(base_image, base_image.width, base_image.height);
+                  }
+                }
+            
         </script>
     </body>
 </html>
